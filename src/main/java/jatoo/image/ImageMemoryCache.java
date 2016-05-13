@@ -1,18 +1,17 @@
 /*
  * Copyright (C) 2014 Cristian Sulea ( http://cristian.sulea.net )
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jatoo.image;
@@ -22,6 +21,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * A handy image memory cache with {@link SoftReference} objects, which are
@@ -32,7 +32,7 @@ import java.util.Map;
  * cleared before the virtual machine throws an {@link OutOfMemoryError}.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.3, October 5, 2015
+ * @version 1.3.1, May 12, 2016
  */
 public class ImageMemoryCache {
 
@@ -69,15 +69,25 @@ public class ImageMemoryCache {
    */
   private void purge() {
 
-    for (Iterator<Object> i = cache.keySet().iterator(); i.hasNext();) {
-      Object key = i.next();
+    for (Iterator<Map.Entry<Object, SoftReference<BufferedImage>>> i = cache.entrySet().iterator(); i.hasNext();) {
+      Entry<Object, SoftReference<BufferedImage>> entry = i.next();
 
-      SoftReference<BufferedImage> softReference = cache.get(key);
+      SoftReference<BufferedImage> softReference = entry.getValue();
 
       if (softReference == null || softReference.get() == null) {
         i.remove();
       }
     }
+
+    // for (Iterator<Object> i = cache.keySet().iterator(); i.hasNext();) {
+    // Object key = i.next();
+    //
+    // SoftReference<BufferedImage> softReference = cache.get(key);
+    //
+    // if (softReference == null || softReference.get() == null) {
+    // i.remove();
+    // }
+    // }
   }
 
 }

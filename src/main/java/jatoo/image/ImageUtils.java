@@ -1,18 +1,17 @@
 /*
  * Copyright (C) 2014 Cristian Sulea ( http://cristian.sulea.net )
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jatoo.image;
@@ -61,7 +60,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 4.2, October 5, 2015
+ * @version 4.2.1, May 12, 2016
  */
 public final class ImageUtils {
 
@@ -160,8 +159,7 @@ public final class ImageUtils {
 
   /**
    * Writes an image using an arbitrary {@link ImageWriter} that supports the
-   * given format to a {@link File}. If there is already a {@link File} present,
-   * the file will be deleted.
+   * given format to a {@link File}.
    * 
    * @param image
    *          the {@link BufferedImage} to be written
@@ -174,7 +172,6 @@ public final class ImageUtils {
    *              if an error occurs during writing
    */
   public static void write(final BufferedImage image, final String formatName, final File file) throws IOException {
-    file.delete();
     ImageIO.write(image, formatName, file);
   }
 
@@ -198,8 +195,6 @@ public final class ImageUtils {
     else {
       writeFile = file;
     }
-
-    writeFile.delete();
 
     ImageIO.write(image, formatName, writeFile);
   }
@@ -250,7 +245,6 @@ public final class ImageUtils {
   }
 
   public static void writeJPEG(final BufferedImage image, final File file, final int compression) throws IOException {
-    file.delete();
     writeJPEG(image, new FileImageOutputStream(file), compression);
   }
 
@@ -275,8 +269,6 @@ public final class ImageUtils {
     else {
       writeFile = file;
     }
-
-    writeFile.delete();
 
     writeJPEG(image, new FileImageOutputStream(writeFile), compression);
   }
@@ -1009,7 +1001,7 @@ public final class ImageUtils {
     }
 
     g.translate((rotatedImageWidth - imageWidth) / 2, (rotatedImageHeight - imageHeight) / 2);
-    g.rotate(Math.toRadians(angle), imageWidth / 2, imageHeight / 2);
+    g.rotate(Math.toRadians(angle), imageWidth / 2d, imageHeight / 2d);
     g.drawImage(image, 0, 0, null);
 
     g.dispose();

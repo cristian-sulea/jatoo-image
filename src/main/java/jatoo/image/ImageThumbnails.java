@@ -1,18 +1,17 @@
 /*
  * Copyright (C) 2014 Cristian Sulea ( http://cristian.sulea.net )
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package jatoo.image;
@@ -32,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * and organizing them.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.2, October 5, 2015
+ * @version 1.2.1, May 12, 2016
  */
 public class ImageThumbnails {
 
@@ -61,15 +60,29 @@ public class ImageThumbnails {
   public ImageThumbnails(final File folder) {
 
     //
-    // ensure folders before checking if is a folder
+    // if folder does not exists
 
-    folder.mkdirs();
+    if (!folder.exists()) {
+
+      //
+      // creates the folder (and parent folders)
+
+      if (!folder.mkdirs()) {
+        throw new IllegalArgumentException(folder + " was not created");
+      }
+    }
 
     //
-    // if is not a folder
+    // if folder exists
 
-    if (!folder.isDirectory()) {
-      throw new IllegalArgumentException(folder + " is not a folder");
+    else {
+
+      //
+      // check if it's a folder
+
+      if (!folder.isDirectory()) {
+        throw new IllegalArgumentException(folder + " is not a folder");
+      }
     }
 
     //
@@ -81,7 +94,9 @@ public class ImageThumbnails {
   public final synchronized BufferedImage get(final File file, final int width, final int height) {
 
     final File thumbnailFileParent = new File(folder, width + FILE_NAME_PATTERN_REPLACEMENT + height);
-    thumbnailFileParent.mkdirs();
+    if (!thumbnailFileParent.exists() && !thumbnailFileParent.mkdirs()) {
+      throw new IllegalArgumentException(thumbnailFileParent + " was not created");
+    }
 
     final File thumbnailFile = new File(thumbnailFileParent, getThumbnailFileName(file));
 
@@ -103,7 +118,9 @@ public class ImageThumbnails {
         //
         // touch (will be used to know when this thumbnail was used last time)
 
-        thumbnailFile.setLastModified(System.currentTimeMillis());
+        if (!thumbnailFile.setLastModified(System.currentTimeMillis())) {
+          logger.info("set last-modified time on thumbnail file " + thumbnailFile + " failed");
+        }
       }
 
       catch (IOException e) {
@@ -167,13 +184,26 @@ public class ImageThumbnails {
 
   public final synchronized void clear() {
 
-    for (File parent : folder.listFiles()) {
+    File[] files = folder.listFiles();
 
-      for (File file : parent.listFiles()) {
-        file.delete();
+    if (files != null) {
+      for (File file : files) {
+        delete(file);
       }
+    }
+  }
 
-      parent.delete();
+  private void delete(File file) {
+    if (file.isDirectory()) {
+      File[] files2 = file.listFiles();
+      if (files2 != null) {
+        for (File file2 : files2) {
+          delete(file2);
+        }
+      }
+    }
+    if (!file.delete()) {
+      throw new IllegalStateException(file + " cannot be deleted");
     }
   }
 
