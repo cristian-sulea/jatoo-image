@@ -1,4 +1,4 @@
-jatoo-image
+JaToo Image
 ===========
 
-A Java Open Source library created to ease the work with images.
+A Java™ Open Source library created to ease the work with images.

@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <parent>
+    <groupId>net.sulea.cristian</groupId>
+    <artifactId>jatoo</artifactId>
+    <relativePath>../jatoo/pom.xml</relativePath>
+    <version>4.0.1</version>
+  </parent>
+
+  <artifactId>jatoo-image</artifactId>
+  <packaging>jar</packaging>
+
+
+  <name>JaToo Image</name>
+  <description>A Java™ Open Source library created to ease the work with images.</description>
+  <url>http://cristian.sulea.net/projects/jatoo-image/</url>
+
+  <inceptionYear>2014</inceptionYear>
+
+
+  <developers>
+    <developer>
+      <id>cristian.sulea</id>
+      <name>Cristian Sulea</name>
+      <email>cristian.sulea.79@gmail.com</email>
+      <url>http://cristian.sulea.net</url>
+    </developer>
+  </developers>
+
+
+  <scm>
+    <connection>scm:git:git@github.com:cristian-sulea/jatoo-image.git</connection>
+    <developerConnection>scm:git:git@github.com:cristian-sulea/jatoo-image.git</developerConnection>
+    <url>https://github.com/cristian-sulea/jatoo-image</url>
+  </scm>
+
+
+</project>
