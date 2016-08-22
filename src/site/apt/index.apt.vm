@@ -1,0 +1,32 @@
+	-----
+	${project.description}
+	-----
+	Cristian Sulea
+	-----
+
+
+${project.name}
+	
+	${project.description}
+
+	For example:
+
++--
+// read
+BufferedImage image = ImageUtils.read(new File("image.jpg"));
+
+// resize
+BufferedImage image1 = ImageUtils.resizeToFill(image, 100, 100);
+BufferedImage image2 = ImageUtils.resizeToFit(image, 100, 100);
+
+// write
+ImageUtils.writeJPEG(image1, new File("image1.jpg"));
+ImageUtils.writePNG(image2, new File("image2.png"));
++--
+
+	Please check {{{./tutorial.html}the tutorial}} for more and detailed examples.
+
+
+#parse("${folderSiteResourcesParentJava}/releases.apt.vm")
+
+#parse("${folderSiteResourcesParent}/footer.apt.vm")
