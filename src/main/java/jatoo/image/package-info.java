@@ -4,4 +4,3 @@
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
  */
 package jatoo.image;
-
