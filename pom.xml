@@ -37,4 +37,19 @@
 	</scm>
 
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>net.sulea.cristian</groupId>
+				<artifactId>maven-plugin-set-license</artifactId>
+				<version>0.1.0</version>
+				<configuration>
+					<licenseHeader>../maven-plugin-set-license/src/license/HEADER</licenseHeader>
+					<licenseFile>../maven-plugin-set-license/src/license/LICENSE</licenseFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 </project>
