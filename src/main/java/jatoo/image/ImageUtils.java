@@ -52,6 +52,7 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileCacheImageOutputStream;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.apache.commons.logging.Log;
@@ -61,7 +62,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 4.2.1, May 12, 2016
+ * @version 5.0, September 13, 2016
  */
 public final class ImageUtils {
 
@@ -153,6 +154,42 @@ public final class ImageUtils {
 
     if (image == null) {
       throw new IOException("Failed to decode the provided stream.");
+    }
+
+    return image;
+  }
+
+  /**
+   * Returns a {@link BufferedImage} as the result of decoding the supplied
+   * {@link ImageInputStream}.
+   * 
+   * Please note that the {@link ImageInputStream} will be closed after read.
+   * 
+   * @param imageInputStream
+   *          an {@link ImageInputStream} to read from.
+   * 
+   * @return a BufferedImage containing the decoded contents of the input.
+   * 
+   * @throws IOException
+   *           if an error occurs during reading or if
+   *           {@link ImageIO#read(ImageInputStream)} returns <code>null</code>.
+   * 
+   * @see ImageIO#read(ImageInputStream)
+   */
+  public static BufferedImage read(final ImageInputStream imageInputStream) throws IOException {
+
+    BufferedImage image;
+
+    try {
+      image = ImageIO.read(imageInputStream);
+    } catch (IOException e) {
+      throw e;
+    } finally {
+      imageInputStream.close();
+    }
+
+    if (image == null) {
+      throw new IOException("Failed to decode the provided image input stream.");
     }
 
     return image;
@@ -624,6 +661,26 @@ public final class ImageUtils {
   }
 
   /**
+   * Resize and save an image (keeping the original ratio) to fit inside a
+   * rectangle with the specified width and height.
+   * 
+   * @param srcImageFile
+   *          the file with the image to be resized
+   * @param dstImageFile
+   *          the file where the resized image to be saved
+   * @param width
+   *          maximum width of the resized image
+   * @param height
+   *          maximum height of the resized image
+   * 
+   * @throws IOException
+   *           if an error occurs
+   */
+  public static void resizeToFit(final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
+    resizeTo(true, srcImageFile, dstImageFile, width, height);
+  }
+
+  /**
    * Resizes an image (keeping the original ratio) to fill a rectangle with the
    * specified width and height (removing margins from image if needed).
    * 
@@ -671,6 +728,27 @@ public final class ImageUtils {
   }
 
   /**
+   * Resize and save an image (keeping the original ratio) to fill a rectangle
+   * with the specified width and height (removing margins from image if
+   * needed).
+   * 
+   * @param srcImageFile
+   *          the file with the image to be resized
+   * @param dstImageFile
+   *          the file where the resized image to be saved
+   * @param width
+   *          maximum width of the resized image
+   * @param height
+   *          maximum height of the resized image
+   * 
+   * @throws IOException
+   *           if an error occurs
+   */
+  public static void resizeToFill(final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
+    resizeTo(false, srcImageFile, dstImageFile, width, height);
+  }
+
+  /**
    * Resizes an image (keeping the original ratio):
    * <ul>
    * <li>to fit inside a rectangle with the specified width and height (adding
@@ -680,7 +758,7 @@ public final class ImageUtils {
    * </ul>
    * 
    * @param fit
-   *          <code>true</code> is is <strong>FIT</strong>, <code>false</code>
+   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code>
    *          if is <strong>FILL</strong>
    * @param image
    *          the image to be resized
@@ -782,6 +860,38 @@ public final class ImageUtils {
     // here we go
 
     return resizedImage;
+  }
+
+  /**
+   * Resize and save an image (keeping the original ratio):
+   * <ul>
+   * <li>to fit inside a rectangle with the specified width and height (adding
+   * empty space if needed);
+   * <li>to fill a rectangle with the specified width and height (removing
+   * margins from image if needed).
+   * </ul>
+   * 
+   * @param fit
+   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code>
+   *          if is <strong>FILL</strong>
+   * @param srcImageFile
+   *          the file with the image to be resized
+   * @param dstImageFile
+   *          the file where the resized image to be saved
+   * @param width
+   *          maximum width of the resized image
+   * @param height
+   *          maximum height of the resized image
+   */
+  public static void resizeTo(final boolean fit, final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
+
+    ImageInputStream srcImageInputStream = ImageIO.createImageInputStream(srcImageFile);
+    String formatName = ImageIO.getImageReaders(srcImageInputStream).next().getFormatName();
+
+    BufferedImage srcImage = read(srcImageInputStream);
+    BufferedImage dstImage = resizeTo(true, srcImage, width, height);
+
+    write(dstImage, formatName, dstImageFile);
   }
 
   /**
