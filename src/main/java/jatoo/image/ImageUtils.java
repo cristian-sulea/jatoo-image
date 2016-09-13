@@ -185,7 +185,9 @@ public final class ImageUtils {
     } catch (IOException e) {
       throw e;
     } finally {
-      imageInputStream.close();
+      try {
+        imageInputStream.close();
+      } catch (IOException e) {}
     }
 
     if (image == null) {
