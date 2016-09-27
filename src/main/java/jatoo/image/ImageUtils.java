@@ -18,6 +18,7 @@
 package jatoo.image;
 
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -27,7 +28,10 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.Transparency;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
@@ -62,7 +66,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 5.0, September 13, 2016
+ * @version 6.0, September 27, 2016
  */
 public final class ImageUtils {
 
@@ -79,13 +83,13 @@ public final class ImageUtils {
    * {@link File}.
    * 
    * @param file
-   *          a {@link File} to read from.
+   *          a {@link File} to read from
    * 
-   * @return a BufferedImage containing the decoded contents of the input.
+   * @return a BufferedImage containing the decoded contents of the file
    * 
    * @throws IOException
    *           if an error occurs during reading or if
-   *           {@link ImageIO#read(File)} returns <code>null</code>.
+   *           {@link ImageIO#read(File)} returns <code>null</code>
    * 
    * @see ImageIO#read(File)
    */
@@ -98,6 +102,25 @@ public final class ImageUtils {
     }
 
     return image;
+  }
+
+  /**
+   * Returns a {@link BufferedImage} as the result of decoding the supplied file
+   * path.
+   * 
+   * @param file
+   *          a file (path) to read from
+   * 
+   * @return a BufferedImage containing the decoded contents of the file
+   * 
+   * @throws IOException
+   *           if an error occurs during reading or if the argument is
+   *           <code>null</code>
+   * 
+   * @see ImageUtils#read(File)
+   */
+  public static BufferedImage read(final String file) throws IOException {
+    return read(new File(file));
   }
 
   /**
@@ -278,6 +301,10 @@ public final class ImageUtils {
 
   public static void writeJPEG(final BufferedImage image, final File file, final boolean fixExtension) throws IOException {
     write(image, "jpg", file, fixExtension);
+  }
+
+  public static void writeJPEG(final BufferedImage image, final String file) throws IOException {
+    write(image, "jpg", new File(file));
   }
 
   public static void writeJPEG(final BufferedImage image, final OutputStream stream) throws IOException {
@@ -1263,4 +1290,153 @@ public final class ImageUtils {
 
     return (String[]) formatNamesList.toArray(new String[formatNamesList.size()]);
   }
+
+  /**
+   * The luminosity function or luminous efficiency function describes the
+   * average spectral sensitivity of human visual perception of brightness.
+   * 
+   * @param blue
+   *          the blue component of the sRGB color
+   * @param green
+   *          the green component of the sRGB color
+   * @param red
+   *          the red component of the sRGB color
+   * 
+   * @return the brightness of the color (it's actually the relative luminance)
+   */
+  public static double getBrightness(final int blue, final int green, final int red) {
+    return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+  }
+
+  /**
+   * The luminosity function or luminous efficiency function describes the
+   * average spectral sensitivity of human visual perception of brightness.
+   * 
+   * @param color
+   *          the sRGB color
+   * 
+   * @return the brightness of the color (it's actually the relative luminance)
+   */
+  public static double getBrightness(final int color) {
+
+    final int blue = color & 0xff;
+    final int green = (color & 0xff00) >> 8;
+    final int red = (color & 0xff0000) >> 16;
+
+    return getBrightness(blue, green, red);
+  }
+
+  public static int getAverageBrightness(BufferedImage image) {
+
+    int totalBrightness = 0;
+
+    for (int y = 0; y < image.getHeight(); y++) {
+      for (int x = 0; x < image.getWidth(); x++) {
+        totalBrightness += getBrightness(image.getRGB(x, y));
+      }
+    }
+
+    return totalBrightness / (image.getWidth() * image.getHeight());
+  }
+
+  public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2) {
+
+    //
+    // constants
+
+    final int thresholdAverageBrightness = 20;
+    final int blockWidth = 10;
+    final int blockHeight = 10;
+
+    final int horizontalBlocks = (int) (image1.getWidth() / blockWidth);
+    final int verticalBlocks = (int) (image1.getHeight() / blockHeight);
+
+    //
+    // horizontal blocks
+
+    final int horizontalBlocksLength = (int) (image1.getWidth() / horizontalBlocks);
+    final int[] horizontalBlocksX = new int[horizontalBlocks];
+    final int[] horizontalBlocksWidth = new int[horizontalBlocks];
+    final int horizontalBlocksWidthDiff = image1.getWidth() - horizontalBlocks * horizontalBlocksLength;
+
+    for (int i = 0; i < horizontalBlocks; i++) {
+
+      horizontalBlocksWidth[i] = horizontalBlocksLength;
+      if (i < horizontalBlocksWidthDiff) {
+        horizontalBlocksWidth[i] += 1;
+      }
+
+      if (i == 0) {
+        horizontalBlocksX[i] = 0;
+      } else {
+        horizontalBlocksX[i] = horizontalBlocksX[i - 1] + horizontalBlocksWidth[i];
+      }
+    }
+
+    //
+    // vertical blocks
+
+    final int verticalBlocksLength = (int) (image1.getHeight() / verticalBlocks);
+    final int[] verticalBlocksY = new int[verticalBlocks];
+    final int[] verticalBlocksHeight = new int[verticalBlocks];
+    final int verticalBlocksHeightDiff = image1.getHeight() - verticalBlocks * verticalBlocksLength;
+
+    for (int j = 0; j < verticalBlocks; j++) {
+
+      verticalBlocksHeight[j] = verticalBlocksLength;
+      if (j < verticalBlocksHeightDiff) {
+        verticalBlocksHeight[j] += 1;
+      }
+
+      if (j == 0) {
+        verticalBlocksY[j] = 0;
+      } else {
+        verticalBlocksY[j] = verticalBlocksY[j - 1] + verticalBlocksHeight[j];
+      }
+    }
+
+    //
+    // changes
+
+    final List<Rectangle> changes = new ArrayList<>();
+
+    for (int i = 0; i < horizontalBlocks; i++) {
+      for (int j = 0; j < verticalBlocks; j++) {
+
+        int ab1 = getAverageBrightness(image1.getSubimage(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
+        int ab2 = getAverageBrightness(image2.getSubimage(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
+
+        if (Math.abs(ab1 - ab2) >= thresholdAverageBrightness) {
+          changes.add(new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
+        }
+      }
+    }
+
+    return changes;
+  }
+
+  public static void drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, Stroke stroke) {
+
+    Graphics2D g = image.createGraphics();
+    g.setColor(color);
+
+    if (stroke != null) {
+      g.setStroke(stroke);
+    }
+
+    for (Shape shape : shapes) {
+      g.draw(shape);
+    }
+
+    g.dispose();
+  }
+
+  public static void drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, int thickness) {
+    drawShapes(image, shapes, color, new BasicStroke(thickness));
+  }
+
+  public static void drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color) {
+    drawShapes(image, shapes, color, null);
+  }
+
 }
