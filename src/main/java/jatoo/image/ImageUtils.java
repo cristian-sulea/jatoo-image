@@ -1327,17 +1327,21 @@ public final class ImageUtils {
     return getBrightness(blue, green, red);
   }
 
-  public static int getAverageBrightness(BufferedImage image) {
+  public static int getAverageBrightness(BufferedImage image, Rectangle area) {
 
     int totalBrightness = 0;
 
-    for (int y = 0; y < image.getHeight(); y++) {
-      for (int x = 0; x < image.getWidth(); x++) {
+    for (int x = area.x; x < area.x + area.width; x++) {
+      for (int y = area.y; y < area.y + area.height; y++) {
         totalBrightness += getBrightness(image.getRGB(x, y));
       }
     }
 
-    return totalBrightness / (image.getWidth() * image.getHeight());
+    return totalBrightness / (area.width * area.height);
+  }
+
+  public static int getAverageBrightness(BufferedImage image) {
+    return getAverageBrightness(image, new Rectangle(0, 0, image.getWidth(), image.getHeight()));
   }
 
   public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2, boolean mergeChanges) {
@@ -1404,8 +1408,8 @@ public final class ImageUtils {
     for (int i = 0; i < horizontalBlocks; i++) {
       for (int j = 0; j < verticalBlocks; j++) {
 
-        int ab1 = getAverageBrightness(image1.getSubimage(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
-        int ab2 = getAverageBrightness(image2.getSubimage(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
+        int ab1 = getAverageBrightness(image1, new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
+        int ab2 = getAverageBrightness(image2, new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
 
         if (Math.abs(ab1 - ab2) >= thresholdAverageBrightness) {
           changes.add(new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
