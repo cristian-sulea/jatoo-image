@@ -1408,11 +1408,13 @@ public final class ImageUtils {
     for (int i = 0; i < horizontalBlocks; i++) {
       for (int j = 0; j < verticalBlocks; j++) {
 
-        int ab1 = getAverageBrightness(image1, new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
-        int ab2 = getAverageBrightness(image2, new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
+        Rectangle block = new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]);
+
+        int ab1 = getAverageBrightness(image1, block);
+        int ab2 = getAverageBrightness(image2, block);
 
         if (Math.abs(ab1 - ab2) >= thresholdAverageBrightness) {
-          changes.add(new Rectangle(horizontalBlocksX[i], verticalBlocksY[j], horizontalBlocksWidth[i], verticalBlocksHeight[j]));
+          changes.add(block);
         }
       }
     }
