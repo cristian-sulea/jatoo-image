@@ -515,10 +515,6 @@ public final class ImageUtils {
     return image;
   }
 
-  public static BufferedImage copy(final BufferedImage image) {
-    return copy(image, hasAlpha(image));
-  }
-
   public static BufferedImage copy(final BufferedImage image, final boolean hasAlpha) {
 
     BufferedImage newImage = create(image.getWidth(), image.getHeight(), hasAlpha);
@@ -528,6 +524,10 @@ public final class ImageUtils {
     g.dispose();
 
     return newImage;
+  }
+
+  public static BufferedImage copy(final BufferedImage image) {
+    return copy(image, hasAlpha(image));
   }
 
   /**
@@ -1448,7 +1448,7 @@ public final class ImageUtils {
     return compare(image1, image2, false);
   }
 
-  public static void drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, Stroke stroke) {
+  public static BufferedImage drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, Stroke stroke) {
 
     Graphics2D g = image.createGraphics();
     g.setColor(color);
@@ -1462,14 +1462,16 @@ public final class ImageUtils {
     }
 
     g.dispose();
+
+    return image;
   }
 
-  public static void drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, int thickness) {
-    drawShapes(image, shapes, color, new BasicStroke(thickness));
+  public static BufferedImage drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, int thickness) {
+    return drawShapes(image, shapes, color, new BasicStroke(thickness));
   }
 
-  public static void drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color) {
-    drawShapes(image, shapes, color, null);
+  public static BufferedImage drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color) {
+    return drawShapes(image, shapes, color, null);
   }
 
 }
