@@ -67,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 6.0, September 27, 2016
+ * @version 6.1, September 28, 2016
  */
 public final class ImageUtils {
 
@@ -80,8 +80,7 @@ public final class ImageUtils {
   private ImageUtils() {}
 
   /**
-   * Returns a {@link BufferedImage} as the result of decoding the supplied
-   * {@link File}.
+   * Returns a {@link BufferedImage} as the result of decoding the supplied {@link File}.
    * 
    * @param file
    *          a {@link File} to read from
@@ -89,8 +88,7 @@ public final class ImageUtils {
    * @return a BufferedImage containing the decoded contents of the file
    * 
    * @throws IOException
-   *           if an error occurs during reading or if
-   *           {@link ImageIO#read(File)} returns <code>null</code>
+   *           if an error occurs during reading or if {@link ImageIO#read(File)} returns <code>null</code>
    * 
    * @see ImageIO#read(File)
    */
@@ -106,8 +104,7 @@ public final class ImageUtils {
   }
 
   /**
-   * Returns a {@link BufferedImage} as the result of decoding the supplied file
-   * path.
+   * Returns a {@link BufferedImage} as the result of decoding the supplied file path.
    * 
    * @param file
    *          a file (path) to read from
@@ -115,8 +112,7 @@ public final class ImageUtils {
    * @return a BufferedImage containing the decoded contents of the file
    * 
    * @throws IOException
-   *           if an error occurs during reading or if the argument is
-   *           <code>null</code>
+   *           if an error occurs during reading or if the argument is <code>null</code>
    * 
    * @see ImageUtils#read(File)
    */
@@ -125,17 +121,15 @@ public final class ImageUtils {
   }
 
   /**
-   * Returns a {@link BufferedImage} as the result of decoding the supplied
-   * {@link URL}.
+   * Returns a {@link BufferedImage} as the result of decoding the supplied {@link URL}.
    * 
    * @param url
-   *          a {@link URL} to read from.
+   *          a {@link URL} to read from
    * 
-   * @return a BufferedImage containing the decoded contents of the input.
+   * @return a BufferedImage containing the decoded contents of the input
    * 
    * @throws IOException
-   *           if an error occurs during reading or if {@link ImageIO#read(URL)}
-   *           returns <code>null</code>.
+   *           if an error occurs during reading or if {@link ImageIO#read(URL)} returns <code>null</code>
    * 
    * @see ImageIO#read(URL)
    */
@@ -148,19 +142,16 @@ public final class ImageUtils {
   }
 
   /**
-   * Returns a {@link BufferedImage} as the result of decoding the supplied
-   * {@link InputStream}.
-   * 
-   * Please note that the {@link InputStream} will be closed after read.
+   * Returns a {@link BufferedImage} as the result of decoding the supplied {@link InputStream}. Please note that the
+   * {@link InputStream} will be closed after read.
    * 
    * @param inputStream
-   *          an {@link InputStream} to read from.
+   *          an {@link InputStream} to read from
    * 
-   * @return a BufferedImage containing the decoded contents of the input.
+   * @return a BufferedImage containing the decoded contents of the input
    * 
    * @throws IOException
-   *           if an error occurs during reading or if
-   *           {@link ImageIO#read(InputStream)} returns <code>null</code>.
+   *           if an error occurs during reading or if {@link ImageIO#read(InputStream)} returns <code>null</code>
    * 
    * @see ImageIO#read(InputStream)
    */
@@ -184,19 +175,17 @@ public final class ImageUtils {
   }
 
   /**
-   * Returns a {@link BufferedImage} as the result of decoding the supplied
-   * {@link ImageInputStream}.
+   * Returns a {@link BufferedImage} as the result of decoding the supplied {@link ImageInputStream}.
    * 
    * Please note that the {@link ImageInputStream} will be closed after read.
    * 
    * @param imageInputStream
    *          an {@link ImageInputStream} to read from.
    * 
-   * @return a BufferedImage containing the decoded contents of the input.
+   * @return a BufferedImage containing the decoded contents of the input
    * 
    * @throws IOException
-   *           if an error occurs during reading or if
-   *           {@link ImageIO#read(ImageInputStream)} returns <code>null</code>.
+   *           if an error occurs during reading or if {@link ImageIO#read(ImageInputStream)} returns <code>null</code>
    * 
    * @see ImageIO#read(ImageInputStream)
    */
@@ -222,8 +211,7 @@ public final class ImageUtils {
   }
 
   /**
-   * Writes an image using an arbitrary {@link ImageWriter} that supports the
-   * given format to a {@link File}.
+   * Writes an image using an arbitrary {@link ImageWriter} that supports the given format to a {@link File}.
    * 
    * @param image
    *          the {@link BufferedImage} to be written
@@ -264,9 +252,8 @@ public final class ImageUtils {
   }
 
   /**
-   * Writes an image using an arbitrary {@link ImageWriter} that supports the
-   * given format to an {@link OutputStream}. The method will close the provided
-   * {@link OutputStream} after the write operation has completed.
+   * Writes an image using an arbitrary {@link ImageWriter} that supports the given format to an {@link OutputStream}.
+   * The method will close the provided {@link OutputStream} after the write operation has completed.
    * 
    * @param image
    *          the {@link BufferedImage} to be written
@@ -386,19 +373,19 @@ public final class ImageUtils {
   }
 
   /**
-   * Creates a {@link BufferedImage} whose data layout and color model tries to
-   * be compatible with this GraphicsConfiguration. If any error occurs trying
-   * to do this a normal {@link BufferedImage} will be created and returned.
+   * Creates a {@link BufferedImage} whose data layout and color model tries to be compatible with this
+   * GraphicsConfiguration. If any error occurs trying to do this a normal {@link BufferedImage} will be created and
+   * returned.
    * 
    * @param width
-   *          the width of the returned {@link BufferedImage}.
+   *          the width of the returned {@link BufferedImage}
    * @param height
-   *          the height of the returned {@link BufferedImage}.
+   *          the height of the returned {@link BufferedImage}
    * @param hasAlpha
-   *          if <code>true</code> then the image will have alpha.
+   *          if <code>true</code> then the image will have alpha
    * 
-   * @return a {@link BufferedImage} whose data layout and color model tries to
-   *         be compatible with this GraphicsConfiguration.
+   * @return a {@link BufferedImage} whose data layout and color model tries to be compatible with this
+   *         {@link GraphicsConfiguration}
    */
   public static BufferedImage create(final int width, final int height, final boolean hasAlpha) {
 
@@ -544,14 +531,12 @@ public final class ImageUtils {
   }
 
   /**
-   * Returns whether or not alpha is supported by the specified
-   * {@link BufferedImage}.
+   * Returns whether or not alpha is supported by the specified {@link BufferedImage}.
    * 
    * @param image
    *          the {@link BufferedImage} to be checked
    * 
-   * @return <code>true</code> if this image has alpha; <code>false</code>
-   *         otherwise
+   * @return <code>true</code> if this image has alpha; <code>false</code> otherwise
    */
   public static boolean hasAlpha(final BufferedImage image) {
     return image.getColorModel().hasAlpha();
@@ -563,8 +548,7 @@ public final class ImageUtils {
    * @param image
    *          the {@link Image} to be checked
    * 
-   * @return <code>true</code> if this image has alpha; <code>false</code>
-   *         otherwise
+   * @return <code>true</code> if this image has alpha; <code>false</code> otherwise
    */
   public static boolean hasAlpha(final Image image) {
 
@@ -587,8 +571,7 @@ public final class ImageUtils {
   }
 
   /**
-   * Creates a new image from a rectangle with the specified location and size
-   * into the specified image.
+   * Creates a new image from a rectangle with the specified location and size into the specified image.
    * 
    * @param image
    *          the source image
@@ -623,8 +606,7 @@ public final class ImageUtils {
   }
 
   /**
-   * Creates a new image from a rectangle with the specified size positioned
-   * into the middle of the specified image.
+   * Creates a new image from a rectangle with the specified size positioned into the middle of the specified image.
    * 
    * @param image
    *          the source image
@@ -644,8 +626,7 @@ public final class ImageUtils {
   }
 
   /**
-   * Resizes an image (keeping the original ratio) to fit inside a rectangle
-   * with the specified width and height.
+   * Resizes an image (keeping the original ratio) to fit inside a rectangle with the specified width and height.
    * 
    * @param image
    *          the image to be resized
@@ -661,8 +642,7 @@ public final class ImageUtils {
   }
 
   /**
-   * Resizes an image (keeping the original ratio) to fit inside a rectangle
-   * with the specified size.
+   * Resizes an image (keeping the original ratio) to fit inside a rectangle with the specified size.
    * 
    * @param image
    *          the image to be resized
@@ -676,8 +656,7 @@ public final class ImageUtils {
   }
 
   /**
-   * Resizes an image (keeping the original ratio) to fit inside a rectangle
-   * with the specified size.
+   * Resizes an image (keeping the original ratio) to fit inside a rectangle with the specified size.
    * 
    * @param image
    *          the image to be resized
@@ -691,8 +670,8 @@ public final class ImageUtils {
   }
 
   /**
-   * Resize and save an image (keeping the original ratio) to fit inside a
-   * rectangle with the specified width and height.
+   * Resize and save an image (keeping the original ratio) to fit inside a rectangle with the specified width and
+   * height.
    * 
    * @param srcImageFile
    *          the file with the image to be resized
@@ -711,8 +690,8 @@ public final class ImageUtils {
   }
 
   /**
-   * Resizes an image (keeping the original ratio) to fill a rectangle with the
-   * specified width and height (removing margins from image if needed).
+   * Resizes an image (keeping the original ratio) to fill a rectangle with the specified width and height (removing
+   * margins from image if needed).
    * 
    * @param image
    *          the image to be resized
@@ -728,8 +707,8 @@ public final class ImageUtils {
   }
 
   /**
-   * Resizes an image (keeping the original ratio) to fill a rectangle with the
-   * specified size (removing margins from image if needed).
+   * Resizes an image (keeping the original ratio) to fill a rectangle with the specified size (removing margins from
+   * image if needed).
    * 
    * @param image
    *          the image to be resized
@@ -743,8 +722,8 @@ public final class ImageUtils {
   }
 
   /**
-   * Resizes an image (keeping the original ratio) to fill a rectangle with the
-   * specified size (removing margins from image if needed).
+   * Resizes an image (keeping the original ratio) to fill a rectangle with the specified size (removing margins from
+   * image if needed).
    * 
    * @param image
    *          the image to be resized
@@ -758,9 +737,8 @@ public final class ImageUtils {
   }
 
   /**
-   * Resize and save an image (keeping the original ratio) to fill a rectangle
-   * with the specified width and height (removing margins from image if
-   * needed).
+   * Resize and save an image (keeping the original ratio) to fill a rectangle with the specified width and height
+   * (removing margins from image if needed).
    * 
    * @param srcImageFile
    *          the file with the image to be resized
@@ -781,15 +759,12 @@ public final class ImageUtils {
   /**
    * Resizes an image (keeping the original ratio):
    * <ul>
-   * <li>to fit inside a rectangle with the specified width and height (adding
-   * empty space if needed);
-   * <li>to fill a rectangle with the specified width and height (removing
-   * margins from image if needed).
+   * <li>to fit inside a rectangle with the specified width and height (adding empty space if needed);
+   * <li>to fill a rectangle with the specified width and height (removing margins from image if needed).
    * </ul>
    * 
    * @param fit
-   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code>
-   *          if is <strong>FILL</strong>
+   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code> if is <strong>FILL</strong>
    * @param image
    *          the image to be resized
    * @param width
@@ -895,15 +870,12 @@ public final class ImageUtils {
   /**
    * Resize and save an image (keeping the original ratio):
    * <ul>
-   * <li>to fit inside a rectangle with the specified width and height (adding
-   * empty space if needed);
-   * <li>to fill a rectangle with the specified width and height (removing
-   * margins from image if needed).
+   * <li>to fit inside a rectangle with the specified width and height (adding empty space if needed);
+   * <li>to fill a rectangle with the specified width and height (removing margins from image if needed).
    * </ul>
    * 
    * @param fit
-   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code>
-   *          if is <strong>FILL</strong>
+   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code> if is <strong>FILL</strong>
    * @param srcImageFile
    *          the file with the image to be resized
    * @param dstImageFile
@@ -925,8 +897,8 @@ public final class ImageUtils {
   }
 
   /**
-   * Calculates the size of an image (keeping the original ratio) to fit inside
-   * a rectangle with the specified width and height.
+   * Calculates the size of an image (keeping the original ratio) to fit inside a rectangle with the specified width and
+   * height.
    * 
    * @param image
    *          the image to fit
@@ -935,48 +907,43 @@ public final class ImageUtils {
    * @param height
    *          maximum height of the the image to fit
    * 
-   * @return a {@link Dimension} object representing the size of the the image
-   *         to fit
+   * @return a {@link Dimension} object representing the size of the the image to fit
    */
   public static Dimension calculateSizeToFit(final BufferedImage image, final int width, final int height) {
     return calculateSizeTo(true, image, width, height);
   }
 
   /**
-   * Calculates the size of an image (keeping the original ratio) to fit inside
-   * a rectangle with the specified size.
+   * Calculates the size of an image (keeping the original ratio) to fit inside a rectangle with the specified size.
    * 
    * @param image
    *          the image to fit
    * @param size
    *          maximum size of the image to fit
    * 
-   * @return a {@link Dimension} object representing the size of the the image
-   *         to fit
+   * @return a {@link Dimension} object representing the size of the the image to fit
    */
   public static Dimension calculateSizeToFit(final BufferedImage image, final Dimension size) {
     return calculateSizeToFit(image, size.width, size.height);
   }
 
   /**
-   * Calculates the size of an image (keeping the original ratio) to fit inside
-   * a rectangle with the specified size.
+   * Calculates the size of an image (keeping the original ratio) to fit inside a rectangle with the specified size.
    * 
    * @param image
    *          the image to fit
    * @param size
    *          maximum size of the image to fit
    * 
-   * @return a {@link Dimension} object representing the size of the the image
-   *         to fit
+   * @return a {@link Dimension} object representing the size of the the image to fit
    */
   public static Dimension calculateSizeToFit(final BufferedImage image, final int size) {
     return calculateSizeToFit(image, size, size);
   }
 
   /**
-   * Calculates the size of an image (keeping the original ratio) to fill a
-   * rectangle with the specified width and height.
+   * Calculates the size of an image (keeping the original ratio) to fill a rectangle with the specified width and
+   * height.
    * 
    * @param image
    *          the image to fill
@@ -985,40 +952,35 @@ public final class ImageUtils {
    * @param height
    *          maximum height of the image to fill
    * 
-   * @return a {@link Dimension} object representing the size of the the image
-   *         to fill
+   * @return a {@link Dimension} object representing the size of the the image to fill
    */
   public static Dimension calculateSizeToFill(final BufferedImage image, final int width, final int height) {
     return calculateSizeTo(false, image, width, height);
   }
 
   /**
-   * Calculates the size of an image (keeping the original ratio) to fill a
-   * rectangle with the specified size.
+   * Calculates the size of an image (keeping the original ratio) to fill a rectangle with the specified size.
    * 
    * @param image
    *          the image to fill
    * @param size
    *          maximum size of the image to fill
    * 
-   * @return a {@link Dimension} object representing the size of the the image
-   *         to fill
+   * @return a {@link Dimension} object representing the size of the the image to fill
    */
   public static Dimension calculateSizeToFill(final BufferedImage image, final Dimension size) {
     return calculateSizeToFill(image, size.width, size.height);
   }
 
   /**
-   * Calculates the size of an image (keeping the original ratio) to fill a
-   * rectangle with the specified size.
+   * Calculates the size of an image (keeping the original ratio) to fill a rectangle with the specified size.
    * 
    * @param image
    *          the image to fill
    * @param size
    *          maximum size of the image to fill
    * 
-   * @return a {@link Dimension} object representing the size of the the image
-   *         to fill
+   * @return a {@link Dimension} object representing the size of the the image to fill
    */
   public static Dimension calculateSizeToFill(final BufferedImage image, final int size) {
     return calculateSizeToFill(image, size, size);
@@ -1032,8 +994,7 @@ public final class ImageUtils {
    * </ul>
    * 
    * @param fit
-   *          <code>true</code> is is <strong>FIT</strong>, <code>false</code>
-   *          if is <strong>FILL</strong>
+   *          <code>true</code> is is <strong>FIT</strong>, <code>false</code> if is <strong>FILL</strong>
    * @param image
    *          the image to fit or fill
    * @param width
@@ -1041,8 +1002,7 @@ public final class ImageUtils {
    * @param height
    *          maximum height of the image to fit or fill
    * 
-   * @return a {@link Dimension} object representing the size of the the image
-   *         to fit or fill
+   * @return a {@link Dimension} object representing the size of the the image to fit or fill
    */
   public static Dimension calculateSizeTo(final boolean fit, final BufferedImage image, final int width, final int height) {
 
@@ -1117,8 +1077,8 @@ public final class ImageUtils {
    * @param angle
    *          the angle of rotation in degrees
    * @param background
-   *          the color of the background for the cases when the angle is not a
-   *          multiplier of 90' (<code>null</code> for transparent)
+   *          the color of the background for the cases when the angle is not a multiplier of 90' ( <code>null</code>
+   *          for transparent)
    * 
    * @return a rotated version of the image (a new object)
    */
@@ -1293,8 +1253,8 @@ public final class ImageUtils {
   }
 
   /**
-   * The luminosity function or luminous efficiency function describes the
-   * average spectral sensitivity of human visual perception of brightness.
+   * The luminosity function or luminous efficiency function describes the average spectral sensitivity of human visual
+   * perception of brightness.
    * 
    * @param blue
    *          the blue component of the sRGB color
@@ -1310,8 +1270,8 @@ public final class ImageUtils {
   }
 
   /**
-   * The luminosity function or luminous efficiency function describes the
-   * average spectral sensitivity of human visual perception of brightness.
+   * The luminosity function or luminous efficiency function describes the average spectral sensitivity of human visual
+   * perception of brightness.
    * 
    * @param color
    *          the sRGB color
