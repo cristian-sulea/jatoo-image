@@ -47,6 +47,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -1339,7 +1340,7 @@ public final class ImageUtils {
     return totalBrightness / (image.getWidth() * image.getHeight());
   }
 
-  public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2) {
+  public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2, boolean mergeChanges) {
 
     //
     // constants
@@ -1412,7 +1413,73 @@ public final class ImageUtils {
       }
     }
 
+    //
+    // merge changes
+
+    if (mergeChanges) {
+
+      //
+      // the loop works as long as there are intersecting changes
+      // so we start with the the pessimistic value
+
+      boolean thereAreIntersectingChanges = true;
+      while (thereAreIntersectingChanges) {
+
+        //
+        // we are in the loop now
+        // so let's hope there are no interesting changes
+
+        thereAreIntersectingChanges = false;
+
+        //
+        // for each rectangle representing a change
+        // we check if he touches the others
+
+        for (Iterator<Rectangle> i = changes.iterator(); i.hasNext();) {
+          Rectangle c1 = i.next();
+
+          for (Rectangle c2 : changes) {
+
+            //
+            // we have a double loop on the same list
+            // so sometimes the two pointers are on the very same object
+
+            if (c1.equals(c2)) {
+              continue;
+            }
+
+            //
+            // if first change touches or intersects the second one
+
+            if (new Rectangle(c1.x, c1.y, c1.width + 1, c1.height + 1).intersects(c2)) {
+
+              //
+              // merge the two changes (in the second rectangle)
+              // and remove the first one from the list
+
+              c2.add(c1);
+              i.remove();
+
+              //
+              // mark that we found two touching (or intersecting) changes
+              // and break the second loop (we removed one element)
+
+              thereAreIntersectingChanges = true;
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    //
+    // return the changes
+
     return changes;
+  }
+
+  public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2) {
+    return compare(image1, image2, false);
   }
 
   public static void drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, Stroke stroke) {
