@@ -13,11 +13,13 @@ import org.junit.Test;
 
 public class CompareTests {
 
-  private static BufferedImage IMAGE;
+  private static BufferedImage IMAGE_1_0;
+  private static BufferedImage IMAGE_2_0;
 
   @BeforeClass
   public static void beforeClass() throws Throwable {
-    IMAGE = ImageUtils.read(CompareTests.class.getResource("compare/test.jpg"));
+    IMAGE_1_0 = ImageUtils.read(CompareTests.class.getResource("compare/test-1-0.jpg"));
+    IMAGE_2_0 = ImageUtils.read(CompareTests.class.getResource("compare/test-2-0.jpg"));
   }
 
   @AfterClass
@@ -30,10 +32,10 @@ public class CompareTests {
   public void after() {}
 
   @Test
-  public void testCompare1() throws Throwable {
+  public void testCompare_1_1() throws Throwable {
 
-    BufferedImage image1 = IMAGE;
-    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test1.jpg"));
+    BufferedImage image1 = IMAGE_1_0;
+    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test-1-1.jpg"));
 
     List<Rectangle> changes = ImageUtils.compare(image1, image2);
     Assert.assertEquals(19, changes.size());
@@ -43,10 +45,10 @@ public class CompareTests {
   }
 
   @Test
-  public void testCompare2() throws Throwable {
+  public void testCompare_1_2() throws Throwable {
 
-    BufferedImage image1 = IMAGE;
-    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test2.jpg"));
+    BufferedImage image1 = IMAGE_1_0;
+    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test-1-2.jpg"));
 
     List<Rectangle> changes = ImageUtils.compare(image1, image2);
     Assert.assertEquals(21, changes.size());
@@ -56,13 +58,39 @@ public class CompareTests {
   }
 
   @Test
-  public void testCompare3() throws Throwable {
+  public void testCompare_1_3() throws Throwable {
 
-    BufferedImage image1 = IMAGE;
-    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test3.jpg"));
+    BufferedImage image1 = IMAGE_1_0;
+    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test-1-3.jpg"));
 
     List<Rectangle> changes = ImageUtils.compare(image1, image2);
     Assert.assertEquals(46, changes.size());
+
+    List<Rectangle> changesMerged = ImageUtils.compare(image1, image2, true);
+    Assert.assertEquals(1, changesMerged.size());
+  }
+
+  @Test
+  public void testCompare_2_1() throws Throwable {
+
+    BufferedImage image1 = IMAGE_2_0;
+    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test-2-1.jpg"));
+
+    List<Rectangle> changes = ImageUtils.compare(image1, image2);
+    Assert.assertEquals(217, changes.size());
+
+    List<Rectangle> changesMerged = ImageUtils.compare(image1, image2, true);
+    Assert.assertEquals(1, changesMerged.size());
+  }
+
+  @Test
+  public void testCompare_2_2() throws Throwable {
+
+    BufferedImage image1 = IMAGE_2_0;
+    BufferedImage image2 = ImageUtils.read(CompareTests.class.getResource("compare/test-2-2.jpg"));
+
+    List<Rectangle> changes = ImageUtils.compare(image1, image2);
+    Assert.assertEquals(220, changes.size());
 
     List<Rectangle> changesMerged = ImageUtils.compare(image1, image2, true);
     Assert.assertEquals(1, changesMerged.size());
