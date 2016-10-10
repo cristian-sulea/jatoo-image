@@ -1306,6 +1306,10 @@ public final class ImageUtils {
 
   public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2, boolean mergeChanges) {
 
+    if (image1.getWidth() != image2.getWidth() || image1.getHeight() != image2.getHeight()) {
+      throw new IllegalArgumentException("different width and/or height ( " + image1.getWidth() + "x" + image1.getHeight() + " / " + image2.getWidth() + "x" + image2.getHeight() + ")");
+    }
+
     //
     // constants
 
