@@ -66,12 +66,12 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 6.1, September 28, 2016
+ * @version 6.2, May 19, 2017
  */
 public final class ImageUtils {
 
-  /** the logger */
-  private static final Log logger = LogFactory.getLog(ImageUtils.class);
+  /** The logger. */
+  private static final Log LOGGER = LogFactory.getLog(ImageUtils.class);
 
   /**
    * Utility classes should not have a public or default constructor.
@@ -400,7 +400,7 @@ public final class ImageUtils {
     }
 
     catch (Exception e) {
-      logger.warn("problems creating a compatible image", e);
+      LOGGER.warn("problems creating a compatible image", e);
       return new BufferedImage(width, height, hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
     }
   }
@@ -564,7 +564,7 @@ public final class ImageUtils {
     try {
       pg.grabPixels();
     } catch (InterruptedException e) {
-      logger.warn("problems grabbing the pixels from this image", e);
+      LOGGER.warn("problems grabbing the pixels from this image", e);
     }
 
     // Get the image's color model
@@ -885,6 +885,9 @@ public final class ImageUtils {
    *          maximum width of the resized image
    * @param height
    *          maximum height of the resized image
+   * 
+   * @throws IOException
+   *           if an error occurs during reading, writing or resizing
    */
   public static void resizeTo(final boolean fit, final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
 
@@ -1301,7 +1304,7 @@ public final class ImageUtils {
     return totalBrightness / (area.width * area.height);
   }
 
-  public static int getAverageBrightness(BufferedImage image) {
+  public static int getAverageBrightness(final BufferedImage image) {
     return getAverageBrightness(image, new Rectangle(0, 0, image.getWidth(), image.getHeight()));
   }
 

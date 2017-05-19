@@ -27,21 +27,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Thumbnails are reduced-size versions of images, used to help in recognizing
- * and organizing them.
+ * Thumbnails are reduced-size versions of images, used to help in recognizing and organizing them.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.2.1, May 12, 2016
+ * @version 1.3, May 19, 2017
  */
 public class ImageThumbnails {
+
+  /** The logger. */
+  private static final Log LOGGER = LogFactory.getLog(ImageThumbnails.class);
 
   private static final Pattern FILE_NAME_PATTERN = Pattern.compile("[^a-zA-Z0-9\\-]");
   private static final String FILE_NAME_PATTERN_REPLACEMENT = "_";
   private static final String PNG_EXTENSION = ".png";
 
-  /** the logger */
-  private static final Log logger = LogFactory.getLog(ImageThumbnails.class);
-
+  /** The folder where thumbnail files are stored. */
   private final File folder;
 
   /**
@@ -119,12 +119,12 @@ public class ImageThumbnails {
         // touch (will be used to know when this thumbnail was used last time)
 
         if (!thumbnailFile.setLastModified(System.currentTimeMillis())) {
-          logger.info("set last-modified time on thumbnail file " + thumbnailFile + " failed");
+          LOGGER.info("set last-modified time on thumbnail file " + thumbnailFile + " failed");
         }
       }
 
       catch (IOException e) {
-        logger.warn("failed to read thumbnail: " + thumbnailFile, e);
+        LOGGER.warn("failed to read thumbnail: " + thumbnailFile, e);
       }
     }
 
@@ -159,12 +159,12 @@ public class ImageThumbnails {
         try {
           ImageUtils.writePNG(thumbnail, thumbnailFile);
         } catch (IOException e) {
-          logger.error("failed to save the image thumbnail to file: " + thumbnailFile, e);
+          LOGGER.error("failed to save the image thumbnail to file: " + thumbnailFile, e);
         }
       }
 
       catch (IOException e) {
-        logger.error("failed to read image from the provided file: " + file, e);
+        LOGGER.error("failed to read image from the provided file: " + file, e);
       }
     }
 
@@ -193,7 +193,7 @@ public class ImageThumbnails {
     }
   }
 
-  private void delete(File file) {
+  private void delete(final File file) {
     if (file.isDirectory()) {
       File[] files2 = file.listFiles();
       if (files2 != null) {
