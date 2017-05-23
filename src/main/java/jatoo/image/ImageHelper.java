@@ -71,7 +71,7 @@ import org.apache.commons.logging.LogFactory;
 public final class ImageHelper {
 
   /** The logger. */
-  private final Log logger = LogFactory.getLog(ImageHelper.class);
+  private static final Log logger = LogFactory.getLog(ImageHelper.class);
 
   /**
    * Default constructor.
