@@ -66,17 +66,17 @@ import org.apache.commons.logging.LogFactory;
  * A collection of helper methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 7.0, May 22, 2017
+ * @version 7.0-SNAPSHOT, May 24, 2017
  */
-public final class ImageHelper {
+public class ImageHelper {
 
   /** The logger. */
   private static final Log logger = LogFactory.getLog(ImageHelper.class);
 
   /**
-   * Default constructor.
+   * Utility classes should not have a public or default constructor.
    */
-  public ImageHelper() {}
+  private ImageHelper() {}
 
   /**
    * Returns a {@link BufferedImage} as the result of decoding the supplied {@link File}.
@@ -91,7 +91,7 @@ public final class ImageHelper {
    * 
    * @see ImageIO#read(File)
    */
-  public BufferedImage read(final File file) throws IOException {
+  public static BufferedImage read(final File file) throws IOException {
 
     BufferedImage image = ImageIO.read(file);
 
@@ -115,7 +115,7 @@ public final class ImageHelper {
    * 
    * @see ImageHelper#read(File)
    */
-  public BufferedImage read(final String file) throws IOException {
+  public static BufferedImage read(final String file) throws IOException {
     return read(new File(file));
   }
 
@@ -132,7 +132,7 @@ public final class ImageHelper {
    * 
    * @see ImageIO#read(URL)
    */
-  public BufferedImage read(final URL url) throws IOException {
+  public static BufferedImage read(final URL url) throws IOException {
     BufferedImage image = ImageIO.read(url);
     if (image == null) {
       throw new IOException("Failed to decode the URL: " + url);
@@ -154,7 +154,7 @@ public final class ImageHelper {
    * 
    * @see ImageIO#read(InputStream)
    */
-  public BufferedImage read(final InputStream inputStream) throws IOException {
+  public static BufferedImage read(final InputStream inputStream) throws IOException {
 
     BufferedImage image;
 
@@ -188,7 +188,7 @@ public final class ImageHelper {
    * 
    * @see ImageIO#read(ImageInputStream)
    */
-  public BufferedImage read(final ImageInputStream imageInputStream) throws IOException {
+  public static BufferedImage read(final ImageInputStream imageInputStream) throws IOException {
 
     BufferedImage image;
 
@@ -222,11 +222,11 @@ public final class ImageHelper {
    * @exception IOException
    *              if an error occurs during writing
    */
-  public void write(final BufferedImage image, final String formatName, final File file) throws IOException {
+  public static void write(final BufferedImage image, final String formatName, final File file) throws IOException {
     ImageIO.write(image, formatName, file);
   }
 
-  public void write(final BufferedImage image, final String formatName, final File file, final boolean fixExtension) throws IOException {
+  public static void write(final BufferedImage image, final String formatName, final File file, final boolean fixExtension) throws IOException {
 
     final File writeFile;
 
@@ -264,7 +264,7 @@ public final class ImageHelper {
    * @throws IOException
    *           if an error occurs during writing
    */
-  public void write(final BufferedImage image, final String formatName, final OutputStream stream) throws IOException {
+  public static void write(final BufferedImage image, final String formatName, final OutputStream stream) throws IOException {
     try {
       ImageIO.write(image, formatName, stream);
     } catch (IOException e) {
@@ -274,35 +274,35 @@ public final class ImageHelper {
     }
   }
 
-  public void writeGIF(final BufferedImage image, final File file) throws IOException {
+  public static void writeGIF(final BufferedImage image, final File file) throws IOException {
     write(image, "gif", file);
   }
 
-  public void writeGIF(final BufferedImage image, final OutputStream stream) throws IOException {
+  public static void writeGIF(final BufferedImage image, final OutputStream stream) throws IOException {
     write(image, "gif", stream);
   }
 
-  public void writeJPEG(final BufferedImage image, final File file) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final File file) throws IOException {
     write(image, "jpg", file);
   }
 
-  public void writeJPEG(final BufferedImage image, final File file, final boolean fixExtension) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final File file, final boolean fixExtension) throws IOException {
     write(image, "jpg", file, fixExtension);
   }
 
-  public void writeJPEG(final BufferedImage image, final String file) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final String file) throws IOException {
     write(image, "jpg", new File(file));
   }
 
-  public void writeJPEG(final BufferedImage image, final OutputStream stream) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final OutputStream stream) throws IOException {
     write(image, "jpg", stream);
   }
 
-  public void writeJPEG(final BufferedImage image, final File file, final int compression) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final File file, final int compression) throws IOException {
     writeJPEG(image, new FileImageOutputStream(file), compression);
   }
 
-  public void writeJPEG(final BufferedImage image, final File file, final int compression, final boolean fixExtension) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final File file, final int compression, final boolean fixExtension) throws IOException {
 
     final String formatName = "jpg";
     final File writeFile;
@@ -327,11 +327,11 @@ public final class ImageHelper {
     writeJPEG(image, new FileImageOutputStream(writeFile), compression);
   }
 
-  public void writeJPEG(final BufferedImage image, final OutputStream stream, final int compression) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final OutputStream stream, final int compression) throws IOException {
     writeJPEG(image, new FileCacheImageOutputStream(stream, null), compression);
   }
 
-  public void writeJPEG(final BufferedImage image, final ImageOutputStream stream, final int compression) throws IOException {
+  public static void writeJPEG(final BufferedImage image, final ImageOutputStream stream, final int compression) throws IOException {
 
     if (compression <= 0 || compression > 100) {
       throw new IllegalArgumentException("Compression (" + compression + ") must be in interval (0, 100]");
@@ -359,15 +359,15 @@ public final class ImageHelper {
     }
   }
 
-  public void writePNG(final BufferedImage image, final File file) throws IOException {
+  public static void writePNG(final BufferedImage image, final File file) throws IOException {
     write(image, "png", file);
   }
 
-  public void writePNG(final BufferedImage image, final File file, final boolean fixExtension) throws IOException {
+  public static void writePNG(final BufferedImage image, final File file, final boolean fixExtension) throws IOException {
     write(image, "png", file, fixExtension);
   }
 
-  public void writePNG(final BufferedImage image, final OutputStream stream) throws IOException {
+  public static void writePNG(final BufferedImage image, final OutputStream stream) throws IOException {
     write(image, "png", stream);
   }
 
@@ -386,7 +386,7 @@ public final class ImageHelper {
    * @return a {@link BufferedImage} whose data layout and color model tries to be compatible with this
    *         {@link GraphicsConfiguration}
    */
-  public BufferedImage create(final int width, final int height, final boolean hasAlpha) {
+  public static BufferedImage create(final int width, final int height, final boolean hasAlpha) {
 
     try {
 
@@ -403,7 +403,7 @@ public final class ImageHelper {
     }
   }
 
-  public BufferedImage create(final String string, final boolean addShadow) {
+  public static BufferedImage create(final String string, final boolean addShadow) {
 
     BufferedImage image = create(string, null, Color.BLACK);
 
@@ -414,15 +414,15 @@ public final class ImageHelper {
     return image;
   }
 
-  public BufferedImage create(final String string, final Font font, final Color color) {
+  public static BufferedImage create(final String string, final Font font, final Color color) {
     return create(string, font, color, false);
   }
 
-  public BufferedImage create(final String string, final Font font, final Color color, final boolean antialiasing) {
+  public static BufferedImage create(final String string, final Font font, final Color color, final boolean antialiasing) {
     return create(string, font, color, null, antialiasing);
   }
 
-  public BufferedImage create(final String string, final Font font, final Color color, final Color background, final boolean antialiasing) {
+  public static BufferedImage create(final String string, final Font font, final Color color, final Color background, final boolean antialiasing) {
 
     BufferedImage image;
     Graphics2D g;
@@ -479,11 +479,11 @@ public final class ImageHelper {
     return image;
   }
 
-  public BufferedImage create(final String string, final Font font, final FontRenderContext frc, final Color color) {
+  public static BufferedImage create(final String string, final Font font, final FontRenderContext frc, final Color color) {
     return create(string, font, frc, color, null);
   }
 
-  public BufferedImage create(final String string, final Font font, final FontRenderContext frc, final Color color, final Color background) {
+  public static BufferedImage create(final String string, final Font font, final FontRenderContext frc, final Color color, final Color background) {
 
     Rectangle2D stringBounds = font.getStringBounds(string, frc);
 
@@ -514,7 +514,7 @@ public final class ImageHelper {
     return image;
   }
 
-  public BufferedImage copy(final BufferedImage image, final boolean hasAlpha) {
+  public static BufferedImage copy(final BufferedImage image, final boolean hasAlpha) {
 
     BufferedImage newImage = create(image.getWidth(), image.getHeight(), hasAlpha);
 
@@ -525,7 +525,7 @@ public final class ImageHelper {
     return newImage;
   }
 
-  public BufferedImage copy(final BufferedImage image) {
+  public static BufferedImage copy(final BufferedImage image) {
     return copy(image, hasAlpha(image));
   }
 
@@ -537,7 +537,7 @@ public final class ImageHelper {
    * 
    * @return <code>true</code> if this image has alpha; <code>false</code> otherwise
    */
-  public boolean hasAlpha(final BufferedImage image) {
+  public static boolean hasAlpha(final BufferedImage image) {
     return image.getColorModel().hasAlpha();
   }
 
@@ -549,7 +549,7 @@ public final class ImageHelper {
    * 
    * @return <code>true</code> if this image has alpha; <code>false</code> otherwise
    */
-  public boolean hasAlpha(final Image image) {
+  public static boolean hasAlpha(final Image image) {
 
     // If buffered image, the color model is readily available
     if (image instanceof BufferedImage) {
@@ -585,7 +585,7 @@ public final class ImageHelper {
    * 
    * @return a new {@link BufferedImage}
    */
-  public BufferedImage crop(final BufferedImage image, final int x, final int y, final int width, final int height) {
+  public static BufferedImage crop(final BufferedImage image, final int x, final int y, final int width, final int height) {
 
     final boolean hasAlpha;
 
@@ -616,7 +616,7 @@ public final class ImageHelper {
    * 
    * @return a new {@link BufferedImage}
    */
-  public BufferedImage crop(final BufferedImage image, final int width, final int height) {
+  public static BufferedImage crop(final BufferedImage image, final int width, final int height) {
 
     final int x = (image.getWidth() - width) / 2;
     final int y = (image.getHeight() - height) / 2;
@@ -636,7 +636,7 @@ public final class ImageHelper {
    * 
    * @return a resized version of the image (a new object)
    */
-  public BufferedImage resizeToFit(final BufferedImage image, final int width, final int height) {
+  public static BufferedImage resizeToFit(final BufferedImage image, final int width, final int height) {
     return resizeTo(true, image, width, height);
   }
 
@@ -650,7 +650,7 @@ public final class ImageHelper {
    * 
    * @return a resized version of the image (a new object)
    */
-  public BufferedImage resizeToFit(final BufferedImage image, final Dimension size) {
+  public static BufferedImage resizeToFit(final BufferedImage image, final Dimension size) {
     return resizeToFit(image, size.width, size.height);
   }
 
@@ -664,7 +664,7 @@ public final class ImageHelper {
    * 
    * @return a resized version of the image (a new object)
    */
-  public BufferedImage resizeToFit(final BufferedImage image, final int size) {
+  public static BufferedImage resizeToFit(final BufferedImage image, final int size) {
     return resizeToFit(image, size, size);
   }
 
@@ -684,7 +684,7 @@ public final class ImageHelper {
    * @throws IOException
    *           if an error occurs
    */
-  public void resizeToFit(final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
+  public static void resizeToFit(final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
     resizeTo(true, srcImageFile, dstImageFile, width, height);
   }
 
@@ -701,7 +701,7 @@ public final class ImageHelper {
    * 
    * @return a resized version of the image (a new object)
    */
-  public BufferedImage resizeToFill(final BufferedImage image, final int width, final int height) {
+  public static BufferedImage resizeToFill(final BufferedImage image, final int width, final int height) {
     return resizeTo(false, image, width, height);
   }
 
@@ -716,7 +716,7 @@ public final class ImageHelper {
    * 
    * @return a resized version of the image (a new object)
    */
-  public BufferedImage resizeToFill(final BufferedImage image, final Dimension size) {
+  public static BufferedImage resizeToFill(final BufferedImage image, final Dimension size) {
     return resizeToFill(image, size.width, size.height);
   }
 
@@ -731,7 +731,7 @@ public final class ImageHelper {
    * 
    * @return a resized version of the image (a new object)
    */
-  public BufferedImage resizeToFill(final BufferedImage image, final int size) {
+  public static BufferedImage resizeToFill(final BufferedImage image, final int size) {
     return resizeToFill(image, size, size);
   }
 
@@ -751,7 +751,7 @@ public final class ImageHelper {
    * @throws IOException
    *           if an error occurs
    */
-  public void resizeToFill(final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
+  public static void resizeToFill(final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
     resizeTo(false, srcImageFile, dstImageFile, width, height);
   }
 
@@ -773,7 +773,7 @@ public final class ImageHelper {
    * 
    * @return a resized version of the image (a new object)
    */
-  public BufferedImage resizeTo(final boolean fit, final BufferedImage image, final int width, final int height) {
+  public static BufferedImage resizeTo(final boolean fit, final BufferedImage image, final int width, final int height) {
 
     int imageWidth = image.getWidth();
     int imageHeight = image.getHeight();
@@ -887,7 +887,7 @@ public final class ImageHelper {
    * @throws IOException
    *           if an error occurs during reading, writing or resizing
    */
-  public void resizeTo(final boolean fit, final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
+  public static void resizeTo(final boolean fit, final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
 
     ImageInputStream srcImageInputStream = ImageIO.createImageInputStream(srcImageFile);
     String formatName = ImageIO.getImageReaders(srcImageInputStream).next().getFormatName();
@@ -911,7 +911,7 @@ public final class ImageHelper {
    * 
    * @return a {@link Dimension} object representing the size of the the image to fit
    */
-  public Dimension calculateSizeToFit(final BufferedImage image, final int width, final int height) {
+  public static Dimension calculateSizeToFit(final BufferedImage image, final int width, final int height) {
     return calculateSizeTo(true, image, width, height);
   }
 
@@ -925,7 +925,7 @@ public final class ImageHelper {
    * 
    * @return a {@link Dimension} object representing the size of the the image to fit
    */
-  public Dimension calculateSizeToFit(final BufferedImage image, final Dimension size) {
+  public static Dimension calculateSizeToFit(final BufferedImage image, final Dimension size) {
     return calculateSizeToFit(image, size.width, size.height);
   }
 
@@ -939,7 +939,7 @@ public final class ImageHelper {
    * 
    * @return a {@link Dimension} object representing the size of the the image to fit
    */
-  public Dimension calculateSizeToFit(final BufferedImage image, final int size) {
+  public static Dimension calculateSizeToFit(final BufferedImage image, final int size) {
     return calculateSizeToFit(image, size, size);
   }
 
@@ -956,7 +956,7 @@ public final class ImageHelper {
    * 
    * @return a {@link Dimension} object representing the size of the the image to fill
    */
-  public Dimension calculateSizeToFill(final BufferedImage image, final int width, final int height) {
+  public static Dimension calculateSizeToFill(final BufferedImage image, final int width, final int height) {
     return calculateSizeTo(false, image, width, height);
   }
 
@@ -970,7 +970,7 @@ public final class ImageHelper {
    * 
    * @return a {@link Dimension} object representing the size of the the image to fill
    */
-  public Dimension calculateSizeToFill(final BufferedImage image, final Dimension size) {
+  public static Dimension calculateSizeToFill(final BufferedImage image, final Dimension size) {
     return calculateSizeToFill(image, size.width, size.height);
   }
 
@@ -984,7 +984,7 @@ public final class ImageHelper {
    * 
    * @return a {@link Dimension} object representing the size of the the image to fill
    */
-  public Dimension calculateSizeToFill(final BufferedImage image, final int size) {
+  public static Dimension calculateSizeToFill(final BufferedImage image, final int size) {
     return calculateSizeToFill(image, size, size);
   }
 
@@ -1006,7 +1006,7 @@ public final class ImageHelper {
    * 
    * @return a {@link Dimension} object representing the size of the the image to fit or fill
    */
-  public Dimension calculateSizeTo(final boolean fit, final BufferedImage image, final int width, final int height) {
+  public static Dimension calculateSizeTo(final boolean fit, final BufferedImage image, final int width, final int height) {
 
     int imageWidth = image.getWidth();
     int imageHeight = image.getHeight();
@@ -1067,7 +1067,7 @@ public final class ImageHelper {
    * 
    * @return a rotated version of the image (a new object)
    */
-  public BufferedImage rotate(final BufferedImage image, final int angle) {
+  public static BufferedImage rotate(final BufferedImage image, final int angle) {
     return rotate(image, angle, null);
   }
 
@@ -1084,7 +1084,7 @@ public final class ImageHelper {
    * 
    * @return a rotated version of the image (a new object)
    */
-  public BufferedImage rotate(final BufferedImage image, final int angle, final Color background) {
+  public static BufferedImage rotate(final BufferedImage image, final int angle, final Color background) {
 
     final double sin = Math.abs(Math.sin(Math.toRadians(angle)));
     final double cos = Math.abs(Math.cos(Math.toRadians(angle)));
@@ -1120,7 +1120,7 @@ public final class ImageHelper {
    * 
    * @return a flipped (horizontally) version of the image (a new object)
    */
-  public BufferedImage flipHorizontally(final BufferedImage image) {
+  public static BufferedImage flipHorizontally(final BufferedImage image) {
 
     final int width = image.getWidth();
     final int height = image.getHeight();
@@ -1142,7 +1142,7 @@ public final class ImageHelper {
    * 
    * @return a flipped (vertically) version of the image (a new object)
    */
-  public BufferedImage flipVertically(final BufferedImage image) {
+  public static BufferedImage flipVertically(final BufferedImage image) {
 
     final int width = image.getWidth();
     final int height = image.getHeight();
@@ -1164,22 +1164,22 @@ public final class ImageHelper {
    * @param color
    *          the fill color
    */
-  public void fill(final BufferedImage image, final Color color) {
+  public static void fill(final BufferedImage image, final Color color) {
     Graphics2D g = image.createGraphics();
     g.setColor(color);
     g.fillRect(0, 0, image.getWidth(), image.getHeight());
     g.dispose();
   }
 
-  public BufferedImage addShadow(final BufferedImage image) {
+  public static BufferedImage addShadow(final BufferedImage image) {
     return addShadow(image, 30, 3, 3, 0.5f, Color.BLACK);
   }
 
-  public BufferedImage addShadow(final BufferedImage image, final Color color) {
+  public static BufferedImage addShadow(final BufferedImage image, final Color color) {
     return addShadow(image, 30, 3, 3, 0.5f, color);
   }
 
-  public BufferedImage addShadow(final BufferedImage image, final int angle, final int distance, final int size, final float opacity, final Color color) {
+  public static BufferedImage addShadow(final BufferedImage image, final int angle, final int distance, final int size, final float opacity, final Color color) {
 
     double angleRadians = Math.toRadians(angle);
     int distanceX = (int) (Math.cos(angleRadians) * distance);
@@ -1217,7 +1217,7 @@ public final class ImageHelper {
     return imageWithShadow;
   }
 
-  public BufferedImage addBorder(final BufferedImage image, final Color color, final int thickness) {
+  public static BufferedImage addBorder(final BufferedImage image, final Color color, final int thickness) {
     BufferedImage imageWithBorder = create(image.getWidth() + 2 * thickness, image.getHeight() + 2 * thickness, color == null ? true : hasAlpha(image));
     Graphics2D g = imageWithBorder.createGraphics();
     g.drawImage(image, thickness, thickness, null);
@@ -1231,7 +1231,7 @@ public final class ImageHelper {
     return imageWithBorder;
   }
 
-  public BufferedImage addBorder(final BufferedImage image, final int thickness) {
+  public static BufferedImage addBorder(final BufferedImage image, final int thickness) {
     return addBorder(image, null, thickness);
   }
 
@@ -1240,7 +1240,7 @@ public final class ImageHelper {
    * 
    * @return the reading image formats
    */
-  public String[] getFormatNames() {
+  public static String[] getFormatNames() {
 
     Set<String> formatNamesSet = new HashSet<String>();
     for (String formatName : ImageIO.getReaderFormatNames()) {
@@ -1267,7 +1267,7 @@ public final class ImageHelper {
    * 
    * @return the brightness of the color (it's actually the relative luminance)
    */
-  public double getBrightness(final int blue, final int green, final int red) {
+  public static double getBrightness(final int blue, final int green, final int red) {
 
     //
     // constants
@@ -1291,7 +1291,7 @@ public final class ImageHelper {
    * 
    * @return the brightness of the color (it's actually the relative luminance)
    */
-  public double getBrightness(final int color) {
+  public static double getBrightness(final int color) {
 
     //
     // colors
@@ -1306,7 +1306,7 @@ public final class ImageHelper {
     return getBrightness(blue, green, red);
   }
 
-  public int getAverageBrightness(final BufferedImage image, final Rectangle area) {
+  public static int getAverageBrightness(final BufferedImage image, final Rectangle area) {
 
     int totalBrightness = 0;
 
@@ -1319,11 +1319,11 @@ public final class ImageHelper {
     return totalBrightness / (area.width * area.height);
   }
 
-  public int getAverageBrightness(final BufferedImage image) {
+  public static int getAverageBrightness(final BufferedImage image) {
     return getAverageBrightness(image, new Rectangle(0, 0, image.getWidth(), image.getHeight()));
   }
 
-  public List<Rectangle> compare(final BufferedImage image1, final BufferedImage image2, final boolean mergeChanges) {
+  public static List<Rectangle> compare(final BufferedImage image1, final BufferedImage image2, final boolean mergeChanges) {
 
     if (image1.getWidth() != image2.getWidth() || image1.getHeight() != image2.getHeight()) {
       throw new IllegalArgumentException("different width and/or height ( " + image1.getWidth() + "x" + image1.getHeight() + " / " + image2.getWidth() + "x" + image2.getHeight() + ")");
@@ -1467,11 +1467,11 @@ public final class ImageHelper {
     return changes;
   }
 
-  public List<Rectangle> compare(final BufferedImage image1, final BufferedImage image2) {
+  public static List<Rectangle> compare(final BufferedImage image1, final BufferedImage image2) {
     return compare(image1, image2, false);
   }
 
-  public BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color, final Stroke stroke) {
+  public static BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color, final Stroke stroke) {
 
     Graphics2D g = image.createGraphics();
     g.setColor(color);
@@ -1489,16 +1489,12 @@ public final class ImageHelper {
     return image;
   }
 
-  public BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color, final int thickness) {
+  public static BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color, final int thickness) {
     return drawShapes(image, shapes, color, new BasicStroke(thickness));
   }
 
-  public BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color) {
+  public static BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color) {
     return drawShapes(image, shapes, color, null);
-  }
-
-  public ImageMetadata getMetadata(File image) {
-    return new ImageMetadata();
   }
 
 }

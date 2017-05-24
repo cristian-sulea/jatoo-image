@@ -66,12 +66,14 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 6.2, May 19, 2017
+ * @version 7.0-SNAPSHOT, May 24, 2017
  */
-public final class ImageUtils {
+public class ImageUtils {
 
   /** The logger. */
-  private static final Log LOGGER = LogFactory.getLog(ImageUtils.class);
+  private static final Log logger = LogFactory.getLog(ImageUtils.class);
+  
+  private static ImageMetadataHelper metadataHelper;
 
   /**
    * Utility classes should not have a public or default constructor.
@@ -199,9 +201,7 @@ public final class ImageUtils {
     } finally {
       try {
         imageInputStream.close();
-      } catch (IOException e) {
-        // ignore
-      }
+      } catch (IOException e) {}
     }
 
     if (image == null) {
@@ -400,7 +400,7 @@ public final class ImageUtils {
     }
 
     catch (Exception e) {
-      LOGGER.warn("problems creating a compatible image", e);
+      logger.warn("problems creating a compatible image", e);
       return new BufferedImage(width, height, hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
     }
   }
@@ -564,7 +564,7 @@ public final class ImageUtils {
     try {
       pg.grabPixels();
     } catch (InterruptedException e) {
-      LOGGER.warn("problems grabbing the pixels from this image", e);
+      logger.warn("problems grabbing the pixels from this image", e);
     }
 
     // Get the image's color model
@@ -1270,7 +1270,18 @@ public final class ImageUtils {
    * @return the brightness of the color (it's actually the relative luminance)
    */
   public static double getBrightness(final int blue, final int green, final int red) {
-    return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+
+    //
+    // constants
+
+    final double redFactor = 0.2126;
+    final double greenFactor = 0.7152;
+    final double blueFactor = 0.0722;
+
+    //
+    // brightness
+
+    return red * redFactor + green * greenFactor + blue * blueFactor;
   }
 
   /**
@@ -1284,14 +1295,20 @@ public final class ImageUtils {
    */
   public static double getBrightness(final int color) {
 
+    //
+    // colors
+
     final int blue = color & 0xff;
     final int green = (color & 0xff00) >> 8;
     final int red = (color & 0xff0000) >> 16;
 
+    //
+    // brightness
+
     return getBrightness(blue, green, red);
   }
 
-  public static int getAverageBrightness(BufferedImage image, Rectangle area) {
+  public static int getAverageBrightness(final BufferedImage image, final Rectangle area) {
 
     int totalBrightness = 0;
 
@@ -1308,7 +1325,7 @@ public final class ImageUtils {
     return getAverageBrightness(image, new Rectangle(0, 0, image.getWidth(), image.getHeight()));
   }
 
-  public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2, boolean mergeChanges) {
+  public static List<Rectangle> compare(final BufferedImage image1, final BufferedImage image2, final boolean mergeChanges) {
 
     if (image1.getWidth() != image2.getWidth() || image1.getHeight() != image2.getHeight()) {
       throw new IllegalArgumentException("different width and/or height ( " + image1.getWidth() + "x" + image1.getHeight() + " / " + image2.getWidth() + "x" + image2.getHeight() + ")");
@@ -1452,11 +1469,11 @@ public final class ImageUtils {
     return changes;
   }
 
-  public static List<Rectangle> compare(BufferedImage image1, BufferedImage image2) {
+  public static List<Rectangle> compare(final BufferedImage image1, final BufferedImage image2) {
     return compare(image1, image2, false);
   }
 
-  public static BufferedImage drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, Stroke stroke) {
+  public static BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color, final Stroke stroke) {
 
     Graphics2D g = image.createGraphics();
     g.setColor(color);
@@ -1474,11 +1491,11 @@ public final class ImageUtils {
     return image;
   }
 
-  public static BufferedImage drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color, int thickness) {
+  public static BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color, final int thickness) {
     return drawShapes(image, shapes, color, new BasicStroke(thickness));
   }
 
-  public static BufferedImage drawShapes(BufferedImage image, List<? extends Shape> shapes, Color color) {
+  public static BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color) {
     return drawShapes(image, shapes, color, null);
   }
 

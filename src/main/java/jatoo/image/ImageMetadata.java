@@ -1,5 +1,13 @@
 package jatoo.image;
 
+/**
+ * Image metadata allows information to be transported with an image file, in a way that can be understood by other
+ * software, hardware, and end users, regardless of the format. Image metadata includes details relevant to the image
+ * itself as well as information about its production.
+ * 
+ * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
+ * @version 1.0, May 22, 2017
+ */
 public class ImageMetadata {
 
 //CHECKSTYLE:OFF
