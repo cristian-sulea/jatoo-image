@@ -72,8 +72,6 @@ public class ImageUtils {
 
   /** The logger. */
   private static final Log logger = LogFactory.getLog(ImageUtils.class);
-  
-  private static ImageMetadataHelper metadataHelper;
 
   /**
    * Utility classes should not have a public or default constructor.
