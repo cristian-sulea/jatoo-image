@@ -74,6 +74,12 @@ public abstract class ImageMetadataHandler {
 
   public abstract Date getDateTimeOriginal(File image);
 
+  public boolean setDateTimeOriginal(String image, Date date) {
+    return setDateTimeOriginal(new File(image), date);
+  }
+
+  public abstract boolean setDateTimeOriginal(File image, Date date);
+
   public boolean copyMetadata(String srcImage, String dstImage) {
     return copyMetadata(new File(srcImage), new File(dstImage));
   }
