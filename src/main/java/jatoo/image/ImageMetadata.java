@@ -1,5 +1,7 @@
 package jatoo.image;
 
+import java.util.Date;
+
 /**
  * Image metadata allows information to be transported with an image file, in a way that can be understood by other
  * software, hardware, and end users, regardless of the format. Image metadata includes details relevant to the image
@@ -50,7 +52,7 @@ public class ImageMetadata {
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sExposureProgram; // Program AE
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sISO; // 160
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sExifVersion; // 0221
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sDateTimeOriginal; // 2016:10:01 14:23:25
+/** Check http://www.exiv2.org/tags.html for tag description. */ private Date dateTimeOriginal; // 2016:10:01 14:23:25
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sCreateDate; // 2016:10:01 14:23:25
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sComponentsConfiguration; // Y, Cb, Cr, -
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sShutterSpeedValue; // 1/33
@@ -298,12 +300,12 @@ public class ImageMetadata {
     sCreateDate = createDate;
   }
 
-  public final String getDateTimeOriginal() {
-    return sDateTimeOriginal;
+  public final Date getDateTimeOriginal() {
+    return dateTimeOriginal;
   }
 
-  public final void setDateTimeOriginal(final String dateTimeOriginal) {
-    sDateTimeOriginal = dateTimeOriginal;
+  public final void setDateTimeOriginal(final Date dateTimeOriginal) {
+    this.dateTimeOriginal = dateTimeOriginal;
   }
 
   public final String getExifImageHeight() {
