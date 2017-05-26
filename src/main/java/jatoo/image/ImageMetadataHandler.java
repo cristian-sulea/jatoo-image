@@ -1,6 +1,7 @@
 package jatoo.image;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -66,23 +67,36 @@ public abstract class ImageMetadataHandler {
     return getMetadata(new File(image));
   }
 
-  public abstract ImageMetadata getMetadata(File image);
-
   public Date getDateTimeOriginal(String image) {
     return getDateTimeOriginal(new File(image));
   }
 
-  public abstract Date getDateTimeOriginal(File image);
+  public boolean setDateTimeOriginal(String image, int year, int month, int day, int hour, int minute, int second) {
+    return setDateTimeOriginal(new File(image), year, month, day, hour, minute, second);
+  }
+
+  public boolean setDateTimeOriginal(File image, int year, int month, int day, int hour, int minute, int second) {
+
+    Calendar c = Calendar.getInstance();
+    c.clear();
+    c.set(year, month - 1, day, hour, minute, second);
+
+    return setDateTimeOriginal(image, c.getTime());
+  }
 
   public boolean setDateTimeOriginal(String image, Date date) {
     return setDateTimeOriginal(new File(image), date);
   }
 
-  public abstract boolean setDateTimeOriginal(File image, Date date);
-
   public boolean copyMetadata(String srcImage, String dstImage) {
     return copyMetadata(new File(srcImage), new File(dstImage));
   }
+
+  public abstract ImageMetadata getMetadata(File image);
+
+  public abstract Date getDateTimeOriginal(File image);
+
+  public abstract boolean setDateTimeOriginal(File image, Date date);
 
   public abstract boolean copyMetadata(File srcImage, File dstImage);
 
