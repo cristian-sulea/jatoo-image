@@ -67,9 +67,13 @@ public abstract class ImageMetadataHandler {
     return getMetadata(new File(image));
   }
 
+  public abstract ImageMetadata getMetadata(File image);
+
   public Date getDateTimeOriginal(String image) {
     return getDateTimeOriginal(new File(image));
   }
+
+  public abstract Date getDateTimeOriginal(File image);
 
   public boolean setDateTimeOriginal(String image, int year, int month, int day, int hour, int minute, int second) {
     return setDateTimeOriginal(new File(image), year, month, day, hour, minute, second);
@@ -88,21 +92,17 @@ public abstract class ImageMetadataHandler {
     return setDateTimeOriginal(new File(image), date);
   }
 
+  public abstract boolean setDateTimeOriginal(File image, Date date);
+
   public Map<File, Date> getDateTimeOriginalForFolder(String folder) {
     return getDateTimeOriginalForFolder(new File(folder));
   }
 
+  public abstract Map<File, Date> getDateTimeOriginalForFolder(File folder);
+
   public boolean copyMetadata(String srcImage, String dstImage) {
     return copyMetadata(new File(srcImage), new File(dstImage));
   }
-
-  public abstract ImageMetadata getMetadata(File image);
-
-  public abstract Date getDateTimeOriginal(File image);
-
-  public abstract boolean setDateTimeOriginal(File image, Date date);
-
-  public abstract Map<File, Date> getDateTimeOriginalForFolder(File folder);
 
   public abstract boolean copyMetadata(File srcImage, File dstImage);
 
