@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with image metadata.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.0-SNAPSHOT, May 26, 2017
+ * @version 1.1, May 29, 2017
  */
 public abstract class ImageMetadataHandler {
 
@@ -59,9 +59,44 @@ public abstract class ImageMetadataHandler {
       }
 
       catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-        e.printStackTrace();
-        logger.info("", e);
+        logger.info("failed to instantiate the handler", e);
       }
+    }
+
+    if (defaultInstance == null) {
+      logger.warn("there is not even one image metadata handler implementation on the class path");
+
+      defaultInstance = new ImageMetadataHandler() {
+
+        private String getNotImplementedExceptionText() {
+          return "not implemented exception: there is not even one image metadata handler implementation on the class path";
+        }
+
+        @Override
+        public boolean setDateTimeOriginal(File image, Date date) {
+          throw new IllegalStateException(getNotImplementedExceptionText());
+        }
+
+        @Override
+        public ImageMetadata getMetadata(File image) {
+          throw new IllegalStateException(getNotImplementedExceptionText());
+        }
+
+        @Override
+        public Map<File, Date> getDateTimeOriginalForFolder(File folder) {
+          throw new IllegalStateException(getNotImplementedExceptionText());
+        }
+
+        @Override
+        public Date getDateTimeOriginal(File image) {
+          throw new IllegalStateException(getNotImplementedExceptionText());
+        }
+
+        @Override
+        public boolean copyMetadata(File srcImage, File dstImage) {
+          throw new IllegalStateException(getNotImplementedExceptionText());
+        }
+      };
     }
   }
 
