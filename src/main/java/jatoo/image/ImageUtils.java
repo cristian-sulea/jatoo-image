@@ -66,7 +66,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 7.0-SNAPSHOT, May 24, 2017
+ * @version 7.1, May 29, 2017
  */
 public class ImageUtils {
 
@@ -888,6 +888,33 @@ public class ImageUtils {
    *           if an error occurs during reading, writing or resizing
    */
   public static void resizeTo(final boolean fit, final File srcImageFile, final File dstImageFile, final int width, final int height) throws IOException {
+    resizeTo(fit, srcImageFile, dstImageFile, width, height, false);
+  }
+
+  /**
+   * Resize and save an image (keeping the original ratio):
+   * <ul>
+   * <li>to fit inside a rectangle with the specified width and height (adding empty space if needed);
+   * <li>to fill a rectangle with the specified width and height (removing margins from image if needed).
+   * </ul>
+   * 
+   * @param fit
+   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code> if is <strong>FILL</strong>
+   * @param srcImageFile
+   *          the file with the image to be resized
+   * @param dstImageFile
+   *          the file where the resized image to be saved
+   * @param width
+   *          maximum width of the resized image
+   * @param height
+   *          maximum height of the resized image
+   * @param copyMetadata
+   *          <code>true</code> if the metadata should be copied to resized image, <code>false</code> otherwise
+   * 
+   * @throws IOException
+   *           if an error occurs during reading, writing or resizing
+   */
+  public static void resizeTo(final boolean fit, final File srcImageFile, final File dstImageFile, final int width, final int height, boolean copyMetadata) throws IOException {
 
     ImageInputStream srcImageInputStream = ImageIO.createImageInputStream(srcImageFile);
     String formatName = ImageIO.getImageReaders(srcImageInputStream).next().getFormatName();
@@ -896,6 +923,12 @@ public class ImageUtils {
     BufferedImage dstImage = resizeTo(fit, srcImage, width, height);
 
     write(dstImage, formatName, dstImageFile);
+
+    if (copyMetadata) {
+      if (!ImageMetadataHandler.getInstance().copyMetadata(srcImageFile, dstImageFile)) {
+        throw new IOException("failed to copy the metadata");
+      }
+    }
   }
 
   /**
