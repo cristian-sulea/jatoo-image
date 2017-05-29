@@ -893,7 +893,7 @@ public class ImageUtils {
     String formatName = ImageIO.getImageReaders(srcImageInputStream).next().getFormatName();
 
     BufferedImage srcImage = read(srcImageInputStream);
-    BufferedImage dstImage = resizeTo(true, srcImage, width, height);
+    BufferedImage dstImage = resizeTo(fit, srcImage, width, height);
 
     write(dstImage, formatName, dstImageFile);
   }
