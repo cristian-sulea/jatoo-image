@@ -43,8 +43,8 @@ public class ImageMetadata {
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileTypeExtension; // jpg
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sMIMEType; // image/jpeg
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sExifByteOrder; // Big-endian (Motorola, MM)
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sImageWidth; // 3264
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sImageHeight; // 2448
+/** Check http://www.exiv2.org/tags.html for tag description. */ private int imageWidth; // 3264
+/** Check http://www.exiv2.org/tags.html for tag description. */ private int imageHeight; // 2448
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sEncodingProcess; // Baseline DCT, Huffman coding
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sBitsPerSample; // 8
 /** Check http://www.exiv2.org/tags.html for tag description. */ private String sColorComponents; // 3
@@ -236,20 +236,20 @@ public class ImageMetadata {
     sFileTypeExtension = fileTypeExtension;
   }
 
-  public final String getImageHeight() {
-    return sImageHeight;
+  public final int getImageHeight() {
+    return imageHeight;
   }
 
-  public final void setImageHeight(final String imageHeight) {
-    sImageHeight = imageHeight;
+  public final void setImageHeight(final int imageHeight) {
+    this.imageHeight = imageHeight;
   }
 
-  public final String getImageWidth() {
-    return sImageWidth;
+  public final int getImageWidth() {
+    return imageWidth;
   }
 
-  public final void setImageWidth(final String imageWidth) {
-    sImageWidth = imageWidth;
+  public final void setImageWidth(final int imageWidth) {
+    this.imageWidth = imageWidth;
   }
 
   public final String getMIMEType() {
