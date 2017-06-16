@@ -514,9 +514,9 @@ public class ImageUtils {
     return image;
   }
 
-  public static BufferedImage copy(final BufferedImage image, final boolean hasAlpha) {
+  public static BufferedImage copy(final Image image, final boolean hasAlpha) {
 
-    BufferedImage newImage = create(image.getWidth(), image.getHeight(), hasAlpha);
+    BufferedImage newImage = create(image.getWidth(null), image.getHeight(null), hasAlpha);
 
     Graphics2D g = newImage.createGraphics();
     g.drawImage(image, 0, 0, null);
@@ -525,7 +525,7 @@ public class ImageUtils {
     return newImage;
   }
 
-  public static BufferedImage copy(final BufferedImage image) {
+  public static BufferedImage copy(final Image image) {
     return copy(image, hasAlpha(image));
   }
 
@@ -1171,15 +1171,15 @@ public class ImageUtils {
     g.dispose();
   }
 
-  public static BufferedImage addShadow(final BufferedImage image) {
+  public static BufferedImage addShadow(final Image image) {
     return addShadow(image, 30, 3, 3, 0.5f, Color.BLACK);
   }
 
-  public static BufferedImage addShadow(final BufferedImage image, final Color color) {
+  public static BufferedImage addShadow(final Image image, final Color color) {
     return addShadow(image, 30, 3, 3, 0.5f, color);
   }
 
-  public static BufferedImage addShadow(final BufferedImage image, final int angle, final int distance, final int size, final float opacity, final Color color) {
+  public static BufferedImage addShadow(final Image image, final int angle, final int distance, final int size, final float opacity, final Color color) {
 
     double angleRadians = Math.toRadians(angle);
     int distanceX = (int) (Math.cos(angleRadians) * distance);
@@ -1217,21 +1217,21 @@ public class ImageUtils {
     return imageWithShadow;
   }
 
-  public static BufferedImage addBorder(final BufferedImage image, final Color color, final int thickness) {
-    BufferedImage imageWithBorder = create(image.getWidth() + 2 * thickness, image.getHeight() + 2 * thickness, color == null ? true : hasAlpha(image));
+  public static BufferedImage addBorder(final Image image, final Color color, final int thickness) {
+    BufferedImage imageWithBorder = create(image.getWidth(null) + 2 * thickness, image.getHeight(null) + 2 * thickness, color == null ? true : hasAlpha(image));
     Graphics2D g = imageWithBorder.createGraphics();
     g.drawImage(image, thickness, thickness, null);
     if (color != null) {
       g.setColor(color);
       for (int i = 0; i < thickness; i++) {
-        g.drawRect(i, i, image.getWidth() - i + 1, image.getHeight() - i + 1);
+        g.drawRect(i, i, image.getWidth(null) - i + 1, image.getHeight(null) - i + 1);
       }
     }
     g.dispose();
     return imageWithBorder;
   }
 
-  public static BufferedImage addBorder(final BufferedImage image, final int thickness) {
+  public static BufferedImage addBorder(final Image image, final int thickness) {
     return addBorder(image, null, thickness);
   }
 
