@@ -774,6 +774,30 @@ public class ImageUtils {
    * @return a resized version of the image (a new object)
    */
   public static BufferedImage resizeTo(final boolean fit, final BufferedImage image, final int width, final int height) {
+    return resizeTo(fit, image, width, height, false);
+  }
+
+  /**
+   * Resizes an image (keeping the original ratio):
+   * <ul>
+   * <li>to fit inside a rectangle with the specified width and height (adding empty space if needed);
+   * <li>to fill a rectangle with the specified width and height (removing margins from image if needed).
+   * </ul>
+   * 
+   * @param fit
+   *          <code>true</code> if is <strong>FIT</strong>, <code>false</code> if is <strong>FILL</strong>
+   * @param image
+   *          the image to be resized
+   * @param width
+   *          maximum width to fit or the width to fill
+   * @param height
+   *          maximum height to fit or the height to fill
+   * @param fast
+   *          <code>true</code> for a fast resize, <code>false</code> for a quality (but slower) resize
+   * 
+   * @return a resized version of the image (a new object)
+   */
+  public static BufferedImage resizeTo(final boolean fit, final BufferedImage image, final int width, final int height, final boolean fast) {
 
     int imageWidth = image.getWidth();
     int imageHeight = image.getHeight();
@@ -786,70 +810,93 @@ public class ImageUtils {
     }
 
     //
-    // ratio
-
-    double ratio;
-    boolean isResizeDown;
-
-    if (width < imageWidth) {
-      ratio = 0.5;
-      isResizeDown = true;
-    }
-
-    else {
-      ratio = 1.5;
-      isResizeDown = false;
-    }
-
-    //
-    // calculate the size of the resized image
-
-    Dimension resizedImageSize = calculateSizeTo(fit, image, width, height);
-
-    //
-    // resize the image
+    // resize
 
     BufferedImage resizedImage = image;
     boolean resizedImageHasAlpha = hasAlpha(image);
+    Dimension resizedImageSize = calculateSizeTo(fit, image, width, height);
 
-    while (true) {
+    //
+    // fast resize
 
-      int tmpImageWidth = (int) (resizedImage.getWidth() * ratio);
-      int tmpImageHeight = (int) (resizedImage.getHeight() * ratio);
+    if (fast) {
 
-      boolean isResized;
+      //
+      // resize the image
 
-      if (tmpImageWidth == 0 || tmpImageHeight == 0) {
-        isResized = true;
-      }
-
-      else {
-
-        if (isResizeDown) {
-          isResized = tmpImageWidth <= resizedImageSize.width || tmpImageHeight <= resizedImageSize.height;
-        }
-
-        else {
-          isResized = tmpImageWidth >= resizedImageSize.width || tmpImageHeight >= resizedImageSize.height;
-        }
-      }
-
-      if (isResized) {
-        tmpImageWidth = resizedImageSize.width;
-        tmpImageHeight = resizedImageSize.height;
-      }
-
-      BufferedImage tmpImage = create(tmpImageWidth, tmpImageHeight, resizedImageHasAlpha);
+      BufferedImage tmpImage = create(resizedImageSize.width, resizedImageSize.height, resizedImageHasAlpha);
 
       Graphics2D tmpImageGraphics = tmpImage.createGraphics();
       tmpImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-      tmpImageGraphics.drawImage(resizedImage, 0, 0, tmpImageWidth, tmpImageHeight, null);
+      tmpImageGraphics.drawImage(resizedImage, 0, 0, resizedImageSize.width, resizedImageSize.height, null);
       tmpImageGraphics.dispose();
 
       resizedImage = tmpImage;
+    }
 
-      if (isResized) {
-        break;
+    //
+    // quality resize
+
+    else {
+
+      //
+      // ratio
+
+      double ratio;
+      boolean isResizeDown;
+
+      if (width < imageWidth) {
+        ratio = 0.5;
+        isResizeDown = true;
+      }
+
+      else {
+        ratio = 1.5;
+        isResizeDown = false;
+      }
+
+      //
+      // resize the image
+
+      while (true) {
+
+        int tmpImageWidth = (int) (resizedImage.getWidth() * ratio);
+        int tmpImageHeight = (int) (resizedImage.getHeight() * ratio);
+
+        boolean isResized;
+
+        if (tmpImageWidth == 0 || tmpImageHeight == 0) {
+          isResized = true;
+        }
+
+        else {
+
+          if (isResizeDown) {
+            isResized = tmpImageWidth <= resizedImageSize.width || tmpImageHeight <= resizedImageSize.height;
+          }
+
+          else {
+            isResized = tmpImageWidth >= resizedImageSize.width || tmpImageHeight >= resizedImageSize.height;
+          }
+        }
+
+        if (isResized) {
+          tmpImageWidth = resizedImageSize.width;
+          tmpImageHeight = resizedImageSize.height;
+        }
+
+        BufferedImage tmpImage = create(tmpImageWidth, tmpImageHeight, resizedImageHasAlpha);
+
+        Graphics2D tmpImageGraphics = tmpImage.createGraphics();
+        tmpImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        tmpImageGraphics.drawImage(resizedImage, 0, 0, tmpImageWidth, tmpImageHeight, null);
+        tmpImageGraphics.dispose();
+
+        resizedImage = tmpImage;
+
+        if (isResized) {
+          break;
+        }
       }
     }
 
@@ -1172,11 +1219,11 @@ public class ImageUtils {
   }
 
   public static BufferedImage addShadow(final Image image) {
-    return addShadow(image, 30, 3, 3, 0.5f, Color.BLACK);
+    return addShadow(image, 30, 5, 5, 0.5f, Color.BLACK);
   }
 
   public static BufferedImage addShadow(final Image image, final Color color) {
-    return addShadow(image, 30, 3, 3, 0.5f, color);
+    return addShadow(image, 30, 5, 5, 0.5f, color);
   }
 
   public static BufferedImage addShadow(final Image image, final int angle, final int distance, final int size, final float opacity, final Color color) {
