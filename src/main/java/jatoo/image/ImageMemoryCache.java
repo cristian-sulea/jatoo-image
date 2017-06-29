@@ -24,26 +24,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * A handy image memory cache with {@link SoftReference} objects, which are
- * cleared at the discretion of the garbage collector in response to memory
- * demand.
+ * A handy image memory cache with {@link SoftReference} objects, which are cleared at the discretion of the garbage
+ * collector in response to memory demand.
  * <p>
- * All soft references to softly-reachable objects are guaranteed to have been
- * cleared before the virtual machine throws an {@link OutOfMemoryError}.
+ * All soft references to softly-reachable objects are guaranteed to have been cleared before the virtual machine throws
+ * an {@link OutOfMemoryError}.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.3.1, May 12, 2016
+ * @version 2.0, June 29, 2017
  */
 public class ImageMemoryCache {
 
   private final Map<Object, SoftReference<BufferedImage>> cache = new HashMap<Object, SoftReference<BufferedImage>>();
 
-  public final synchronized void put(final Object key, final BufferedImage image) {
+  public synchronized void put(final Object key, final BufferedImage image) {
     cache.put(key, new SoftReference<BufferedImage>(image));
     purge();
   }
 
-  public final synchronized BufferedImage get(final Object key) {
+  public synchronized BufferedImage get(final Object key) {
 
     BufferedImage image = null;
 
@@ -55,13 +54,18 @@ public class ImageMemoryCache {
     return image;
   }
 
-  public final synchronized void remove(final Object key) {
+  public synchronized void remove(final Object key) {
     cache.remove(key);
     purge();
   }
 
-  public final synchronized void clear() {
+  public synchronized void clear() {
     cache.clear();
+  }
+
+  public synchronized int size() {
+    purge();
+    return cache.size();
   }
 
   /**
