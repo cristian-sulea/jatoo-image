@@ -20,7 +20,6 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
@@ -30,16 +29,15 @@ import org.apache.commons.logging.LogFactory;
  * Thumbnails are reduced-size versions of images, used to help in recognizing and organizing them.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.3, May 19, 2017
+ * @version 2.0, June 29, 2017
  */
 public class ImageThumbnails {
 
   /** The logger. */
   private static final Log LOGGER = LogFactory.getLog(ImageThumbnails.class);
 
-  private static final Pattern FILE_NAME_PATTERN = Pattern.compile("[^a-zA-Z0-9\\-]");
-  private static final String FILE_NAME_PATTERN_REPLACEMENT = "_";
-  private static final String PNG_EXTENSION = ".png";
+  private static final Pattern THUMBNAIL_FILE_NAME_PATTERN = Pattern.compile("[^a-zA-Z0-9\\-]");
+  private static final String THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT = "_";
 
   /** The folder where thumbnail files are stored. */
   private final File folder;
@@ -91,14 +89,30 @@ public class ImageThumbnails {
     this.folder = folder;
   }
 
-  public final synchronized BufferedImage get(final File file, final int width, final int height) {
+  public final synchronized BufferedImage get(final File file, final Dimension size) {
+    return get(file, size.width, size.height);
+  }
 
-    final File thumbnailFileParent = new File(folder, width + FILE_NAME_PATTERN_REPLACEMENT + height);
+  public final synchronized BufferedImage get(final File file, final int size) {
+    return get(file, size, size);
+  }
+
+  public final synchronized BufferedImage get(final File file, final int width, final int height) {
+    return get(file, width, height, true, false, ImageUtils.FORMAT.PNG);
+  }
+
+  public final synchronized BufferedImage get(final File file, final int width, final int height, final boolean create, final boolean fit, final ImageUtils.FORMAT format) {
+    return get(file, null, width, height, create, fit, format);
+  }
+
+  public final synchronized BufferedImage get(final File file, final BufferedImage image, final int width, final int height, final boolean create, final boolean fit, final ImageUtils.FORMAT format) {
+
+    File thumbnailFileParent = new File(folder, width + THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT + height);
     if (!thumbnailFileParent.exists() && !thumbnailFileParent.mkdirs()) {
       throw new IllegalArgumentException(thumbnailFileParent + " was not created");
     }
 
-    final File thumbnailFile = new File(thumbnailFileParent, getThumbnailFileName(file));
+    File thumbnailFile = new File(thumbnailFileParent, getThumbnailFileName(file, fit, format));
 
     BufferedImage thumbnail = null;
 
@@ -131,33 +145,29 @@ public class ImageThumbnails {
     //
     // no thumbnail or some unexpected exception while reading
 
-    if (thumbnail == null) {
+    if (thumbnail == null && create) {
 
       try {
 
         //
         // load (read)
 
-        thumbnail = ImageUtils.read(file);
+        if (image == null) {
+          thumbnail = ImageUtils.read(file);
+        } else {
+          thumbnail = image;
+        }
 
         //
-        // resize (if needed) & crop
+        // resize
 
-        // if (thumbnail.getWidth() > width || thumbnail.getHeight() > height) {
-        // thumbnail = ImageUtils.resizeToFit(thumbnail, width, height);
-        // }
-        // thumbnail = ImageUtils.crop(thumbnail, width, height);
-
-        //
-        // or use resize to fill
-
-        thumbnail = ImageUtils.resizeToFill(thumbnail, width, height);
+        thumbnail = ImageUtils.resizeTo(fit, thumbnail, width, height);
 
         //
         // save (write)
 
         try {
-          ImageUtils.writePNG(thumbnail, thumbnailFile);
+          ImageUtils.save(thumbnail, thumbnailFile, format);
         } catch (IOException e) {
           LOGGER.error("failed to save the image thumbnail to file: " + thumbnailFile, e);
         }
@@ -172,14 +182,6 @@ public class ImageThumbnails {
     // null is an accepted value
 
     return thumbnail;
-  }
-
-  public final synchronized BufferedImage get(final File file, final Dimension size) {
-    return get(file, size.width, size.height);
-  }
-
-  public final synchronized BufferedImage get(final File file, final int size) {
-    return get(file, size, size);
   }
 
   public final synchronized void clear() {
@@ -207,20 +209,28 @@ public class ImageThumbnails {
     }
   }
 
-  private String getThumbnailFileName(final File file) {
+  private String getThumbnailFileName(final File file, final boolean fit, final ImageUtils.FORMAT thumbnailFormat) {
 
-    final Matcher matcher = FILE_NAME_PATTERN.matcher(file.getAbsolutePath());
+    StringBuilder input = new StringBuilder();
+    input.append(file.getName());
+    input.append(THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT);
+    if (fit) {
+      input.append("fit").append(THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT);
+    } else {
+      input.append("fill");
+    }
+    input.append(THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT);
+    input.append(file.getParentFile().getAbsolutePath());
 
-    final StringBuilder thumbnailFileName = new StringBuilder();
+    StringBuilder name = new StringBuilder();
 
-    thumbnailFileName.append(matcher.replaceAll(FILE_NAME_PATTERN_REPLACEMENT));
-    thumbnailFileName.append(FILE_NAME_PATTERN_REPLACEMENT);
-    thumbnailFileName.append(file.lastModified());
-    thumbnailFileName.append(FILE_NAME_PATTERN_REPLACEMENT);
-    thumbnailFileName.append(file.length());
-    thumbnailFileName.append(PNG_EXTENSION);
+    input.append(file.lastModified());
+    input.append(THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT);
+    input.append(file.length());
+    name.append(THUMBNAIL_FILE_NAME_PATTERN.matcher(input).replaceAll(THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT));
+    name.append('.').append(thumbnailFormat.name().toLowerCase());
 
-    return thumbnailFileName.toString();
+    return name.toString();
   }
 
 }
