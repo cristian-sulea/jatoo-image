@@ -17,6 +17,7 @@
 package jatoo.image;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,9 +38,17 @@ public class ImageMemoryCache {
 
   private final Map<Object, SoftReference<BufferedImage>> cache = new HashMap<Object, SoftReference<BufferedImage>>();
 
+  public synchronized void put(final File file, final BufferedImage image) {
+    put(createKey(file), image);
+  }
+
   public synchronized void put(final Object key, final BufferedImage image) {
     cache.put(key, new SoftReference<BufferedImage>(image));
     purge();
+  }
+
+  public synchronized BufferedImage get(final File file) {
+    return get(createKey(file));
   }
 
   public synchronized BufferedImage get(final Object key) {
@@ -54,6 +63,10 @@ public class ImageMemoryCache {
     return image;
   }
 
+  public synchronized void remove(final File file) {
+    remove(createKey(file));
+  }
+
   public synchronized void remove(final Object key) {
     cache.remove(key);
     purge();
@@ -61,11 +74,6 @@ public class ImageMemoryCache {
 
   public synchronized void clear() {
     cache.clear();
-  }
-
-  public synchronized int size() {
-    purge();
-    return cache.size();
   }
 
   /**
@@ -92,6 +100,10 @@ public class ImageMemoryCache {
     // i.remove();
     // }
     // }
+  }
+
+  private Object createKey(final File file) {
+    return file.getAbsolutePath() + "|" + file.lastModified() + "|" + file.length();
   }
 
 }
