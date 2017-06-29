@@ -66,12 +66,23 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 7.1, May 31, 2017
+ * @version 8.0-SNAPSHOT, June 23, 2017
  */
 public class ImageUtils {
 
   /** The logger. */
   private static final Log logger = LogFactory.getLog(ImageUtils.class);
+
+  public static final String FORMAT_JPG = "jpg";
+  public static final String FORMAT_PNG = "png";
+  public static final String FORMAT_GIF = "gif";
+
+  /** Image formats that can be loaded or saved. */
+  public enum FORMAT {
+    JPG,
+    PNG,
+    GIF;
+  }
 
   /**
    * Utility classes should not have a public or default constructor.
@@ -221,9 +232,28 @@ public class ImageUtils {
    * 
    * @exception IOException
    *              if an error occurs during writing
+   * 
+   * @deprecated use {@link #save(BufferedImage, File, FORMAT)}
    */
   public static void write(final BufferedImage image, final String formatName, final File file) throws IOException {
-    ImageIO.write(image, formatName, file);
+    save(image, file, FORMAT.valueOf(formatName.toUpperCase()));
+  }
+
+  /**
+   * Saves an image in the specified format.
+   * 
+   * @param image
+   *          the {@link BufferedImage} to be saved
+   * @param file
+   *          the {@link File} to be saved to
+   * @param format
+   *          the informal name of the format specified as {@link FORMAT}
+   * 
+   * @exception IOException
+   *              if an error occurs during saving
+   */
+  public static void save(final BufferedImage image, final File file, final FORMAT format) throws IOException {
+    ImageIO.write(image, format.name().toLowerCase(), file);
   }
 
   public static void write(final BufferedImage image, final String formatName, final File file, final boolean fixExtension) throws IOException {
@@ -263,10 +293,30 @@ public class ImageUtils {
    * 
    * @throws IOException
    *           if an error occurs during writing
+   * 
+   * @deprecated use {@link #save(BufferedImage, OutputStream, FORMAT)}
    */
   public static void write(final BufferedImage image, final String formatName, final OutputStream stream) throws IOException {
+    save(image, stream, FORMAT.valueOf(formatName.toUpperCase()));
+  }
+
+  /**
+   * Saves an image in the specified format. The method will try to close the provided {@link OutputStream} before the
+   * method exits.
+   * 
+   * @param image
+   *          the {@link BufferedImage} to be saved
+   * @param stream
+   *          the {@link OutputStream} to be saved to
+   * @param format
+   *          the informal name of the format specified as {@link FORMAT}
+   * 
+   * @throws IOException
+   *           if an error occurs during saving
+   */
+  public static void save(final BufferedImage image, final OutputStream stream, final FORMAT format) throws IOException {
     try {
-      ImageIO.write(image, formatName, stream);
+      ImageIO.write(image, format.name().toLowerCase(), stream);
     } catch (IOException e) {
       throw e;
     } finally {
@@ -275,27 +325,27 @@ public class ImageUtils {
   }
 
   public static void writeGIF(final BufferedImage image, final File file) throws IOException {
-    write(image, "gif", file);
+    write(image, FORMAT_GIF, file);
   }
 
   public static void writeGIF(final BufferedImage image, final OutputStream stream) throws IOException {
-    write(image, "gif", stream);
+    write(image, FORMAT_GIF, stream);
   }
 
   public static void writeJPEG(final BufferedImage image, final File file) throws IOException {
-    write(image, "jpg", file);
+    write(image, FORMAT_JPG, file);
   }
 
   public static void writeJPEG(final BufferedImage image, final File file, final boolean fixExtension) throws IOException {
-    write(image, "jpg", file, fixExtension);
+    write(image, FORMAT_JPG, file, fixExtension);
   }
 
   public static void writeJPEG(final BufferedImage image, final String file) throws IOException {
-    write(image, "jpg", new File(file));
+    write(image, FORMAT_JPG, new File(file));
   }
 
   public static void writeJPEG(final BufferedImage image, final OutputStream stream) throws IOException {
-    write(image, "jpg", stream);
+    write(image, FORMAT_JPG, stream);
   }
 
   public static void writeJPEG(final BufferedImage image, final File file, final int compression) throws IOException {
@@ -304,7 +354,7 @@ public class ImageUtils {
 
   public static void writeJPEG(final BufferedImage image, final File file, final int compression, final boolean fixExtension) throws IOException {
 
-    final String formatName = "jpg";
+    final String formatName = FORMAT_JPG;
     final File writeFile;
 
     if (fixExtension) {
@@ -360,15 +410,15 @@ public class ImageUtils {
   }
 
   public static void writePNG(final BufferedImage image, final File file) throws IOException {
-    write(image, "png", file);
+    write(image, FORMAT_PNG, file);
   }
 
   public static void writePNG(final BufferedImage image, final File file, final boolean fixExtension) throws IOException {
-    write(image, "png", file, fixExtension);
+    write(image, FORMAT_PNG, file, fixExtension);
   }
 
   public static void writePNG(final BufferedImage image, final OutputStream stream) throws IOException {
-    write(image, "png", stream);
+    write(image, FORMAT_PNG, stream);
   }
 
   /**
