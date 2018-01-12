@@ -23,122 +23,148 @@ import java.util.Date;
  * software, hardware, and end users, regardless of the format. Image metadata includes details relevant to the image
  * itself as well as information about its production.
  * 
+ * <ul>
+ * <li>http://www.exiv2.org/tags.html</li>
+ * <li>https://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html</li>
+ * </ul>
+ * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.0, May 22, 2017
+ * @version 1.0.2, January 12, 2018
  */
 public class ImageMetadata {
 
-//CHECKSTYLE:OFF
+// CHECKSTYLE:OFF
 
   //
   // File
 
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileName; // IMG_1670.jpg
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileSize; // 1519 kB
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileModifyDate; // 2017:05:15 17:01:08+03:00
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileAccessDate; // 2017:05:15 16:55:40+03:00
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileCreateDate; // 2017:05:15 16:24:41+03:00
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFilePermissions; // rw-rw-rw-
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileType; // JPEG
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFileTypeExtension; // jpg
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sMIMEType; // image/jpeg
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExifByteOrder; // Big-endian (Motorola, MM)
-/** Check http://www.exiv2.org/tags.html for tag description. */ private int imageWidth; // 3264
-/** Check http://www.exiv2.org/tags.html for tag description. */ private int imageHeight; // 2448
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sEncodingProcess; // Baseline DCT, Huffman coding
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sBitsPerSample; // 8
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sColorComponents; // 3
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sYCbCrSubSampling; // YCbCr4:2:0 (2 2)
+  private String sFileName; // IMG_1670.jpg
+  private String sFileSize; // 1519 kB
+  private String sFileModifyDate; // 2017:05:15 17:01:08+03:00
+  private String sFileAccessDate; // 2017:05:15 16:55:40+03:00
+  private String sFileCreateDate; // 2017:05:15 16:24:41+03:00
+  private String sFilePermissions; // rw-rw-rw-
+  private String sFileType; // JPEG
+  private String sFileTypeExtension; // jpg
+  private String sMIMEType; // image/jpeg
+  private String sExifByteOrder; // Big-endian (Motorola, MM)
+  private int imageWidth; // 3264
+  private int imageHeight; // 2448
+  private String sEncodingProcess; // Baseline DCT, Huffman coding
+  private String sBitsPerSample; // 8
+  private String sColorComponents; // 3
+  private String sYCbCrSubSampling; // YCbCr4:2:0 (2 2)
 
   //
   // EXIF
 
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sImageDescription; // test title
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sMake; // Apple
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sModel; // iPhone 5s
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sOrientation; // Horizontal (normal)
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sXResolution; // 72
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sYResolution; // 72
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sResolutionUnit; // inches
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSoftware; // 10.0.2
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sModifyDate; // 2016:10:01 14:23:25
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sYCbCrPositioning; // Centered
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExposureTime; // 1/33
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFNumber; // 2.2
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExposureProgram; // Program AE
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sISO; // 160
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExifVersion; // 0221
-/** Check http://www.exiv2.org/tags.html for tag description. */ private Date dateTimeOriginal; // 2016:10:01 14:23:25
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sCreateDate; // 2016:10:01 14:23:25
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sComponentsConfiguration; // Y, Cb, Cr, -
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sShutterSpeedValue; // 1/33
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sApertureValue; // 2.2
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sBrightnessValue; // 1.894974591
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExposureCompensation; // 0
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sMeteringMode; // Spot
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFlash; // Auto, Did not fire
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFocalLength; // 4.2 mm
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSubjectArea; // 1052 1314 610 612
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSubSecTimeOriginal; // 597
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSubSecTimeDigitized; // 597
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFlashpixVersion; // 0100
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sColorSpace; // sRGB
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExifImageWidth; // 3264
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExifImageHeight; // 2448
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSensingMethod; // One-chip color area
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSceneType; // Directly photographed
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sExposureMode; // Auto
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sWhiteBalance; // Auto
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFocalLengthIn35mmFormat; // 29 mm
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSceneCaptureType; // Standard
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sLensInfo; // 4.15mm f/2.2
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sLensMake; // Apple
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sLensModel; // iPhone 5s back camera 4.15mm f/2.2
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sOffsetSchema; // 4192
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sXPTitle; // test title
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sXPComment; // za comments abc def
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sXPKeywords; // a;b
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sXPSubject; // subject
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sPadding; // (Binary data 1942 bytes, use -b option to extract)
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sCompression; // JPEG (old-style)
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sThumbnailOffset; // 5922
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sThumbnailLength; // 4229
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sThumbnailImage; // (Binary data 4229 bytes, use -b option to extract)
+  private String sImageDescription; // test title
+  private String sMake; // Apple
+  private String sModel; // iPhone 5s
+  private String orientation; // Horizontal (normal)
+  private String sXResolution; // 72
+  private String sYResolution; // 72
+  private String sResolutionUnit; // inches
+  private String sSoftware; // 10.0.2
+  private String sModifyDate; // 2016:10:01 14:23:25
+  private String sYCbCrPositioning; // Centered
+  private String sExposureTime; // 1/33
+  private String sFNumber; // 2.2
+  private String sExposureProgram; // Program AE
+  private String sISO; // 160
+  private String sExifVersion; // 0221
+  private Date dateTimeOriginal; // 2016:10:01 14:23:25
+  private String sCreateDate; // 2016:10:01 14:23:25
+  private String sComponentsConfiguration; // Y, Cb, Cr, -
+  private String sShutterSpeedValue; // 1/33
+  private String sApertureValue; // 2.2
+  private String sBrightnessValue; // 1.894974591
+  private String sExposureCompensation; // 0
+  private String sMeteringMode; // Spot
+  private String sFlash; // Auto, Did not fire
+  private String sFocalLength; // 4.2 mm
+  private String sSubjectArea; // 1052 1314 610 612
+  private String sSubSecTimeOriginal; // 597
+  private String sSubSecTimeDigitized; // 597
+  private String sFlashpixVersion; // 0100
+  private String sColorSpace; // sRGB
+  private String sExifImageWidth; // 3264
+  private String sExifImageHeight; // 2448
+  private String sSensingMethod; // One-chip color area
+  private String sSceneType; // Directly photographed
+  private String sExposureMode; // Auto
+  private String sWhiteBalance; // Auto
+  private String sFocalLengthIn35mmFormat; // 29 mm
+  private String sSceneCaptureType; // Standard
+  private String sLensInfo; // 4.15mm f/2.2
+  private String sLensMake; // Apple
+  private String sLensModel; // iPhone 5s back camera 4.15mm f/2.2
+  private String sOffsetSchema; // 4192
+  private String sXPTitle; // test title
+  private String sXPComment; // za comments abc def
+  private String sXPKeywords; // a;b
+  private String sXPSubject; // subject
+  private String sPadding; // (Binary data 1942 bytes, use -b option to extract)
+  private String sCompression; // JPEG (old-style)
+  private String sThumbnailOffset; // 5922
+  private String sThumbnailLength; // 4229
+  private String sThumbnailImage; // (Binary data 4229 bytes, use -b option to extract)
 
   //
   // MakerNotes
 
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sRunTimeFlags; // Valid
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sRunTimeValue; // 135396107442500
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sRunTimeEpoch; // 0
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sRunTimeScale; // 1000000000
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sAccelerationVector; // -0.9131559497 -0.09396347414 -0.4030339084
+  private String sRunTimeFlags; // Valid
+  private String sRunTimeValue; // 135396107442500
+  private String sRunTimeEpoch; // 0
+  private String sRunTimeScale; // 1000000000
+  private String sAccelerationVector; // -0.9131559497 -0.09396347414 -0.4030339084
 
   //
   // XMP
 
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sAbout; // uuid:faf5bdd5-ba3d-11da-ad31-d33d75182f1b
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSubject; // a, b
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sTitle; // test title
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sDescription; // test title
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sLastKeywordXMP; // a, b
+  private String sAbout; // uuid:faf5bdd5-ba3d-11da-ad31-d33d75182f1b
+  private String sSubject; // a, b
+  private String sTitle; // test title
+  private String sDescription; // test title
+  private String sLastKeywordXMP; // a, b
 
   //
   // Composite
 
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sAperture; // 2.2
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sImageSize; // 3264x2448
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sMegapixels; // 8.0
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sRunTimeSincePowerUp; // 1 days 13:36:36
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sScaleFactor35efl; // 7.0
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sShutterSpeed; // 1/33
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSubSecCreateDate; // 2016:10:01 14:23:25.597
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sSubSecDateTimeOriginal; // 2016:10:01 14:23:25.597
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sCircleOfConfusion; // 0.004 mm
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFOV; // 63.7 deg
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sFocalLength35efl; // 4.2 mm (35 mm equivalent; // 29.0 mm)
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sHyperfocalDistance; // 1.82 m
-/** Check http://www.exiv2.org/tags.html for tag description. */ private String sLightValue; // 6.6
+  private String sAperture; // 2.2
+  private String sImageSize; // 3264x2448
+  private String sMegapixels; // 8.0
+  private String sRunTimeSincePowerUp; // 1 days 13:36:36
+  private String sScaleFactor35efl; // 7.0
+  private String sShutterSpeed; // 1/33
+  private String sSubSecCreateDate; // 2016:10:01 14:23:25.597
+  private String sSubSecDateTimeOriginal; // 2016:10:01 14:23:25.597
+  private String sCircleOfConfusion; // 0.004 mm
+  private String sFOV; // 63.7 deg
+  private String sFocalLength35efl; // 4.2 mm (35 mm equivalent; // 29.0 mm)
+  private String sHyperfocalDistance; // 1.82 m
+  private String sLightValue; // 6.6
+
+  //
+  //
+
+  @Override
+  public String toString() {
+
+    StringBuilder buffer = new StringBuilder();
+
+    buffer.append("DateTimeOriginal:").append(getDateTimeOriginal()).append(System.lineSeparator());
+
+    buffer.append("ImageWidth:").append(getImageWidth()).append(System.lineSeparator());
+    buffer.append("ImageHeight:").append(getImageHeight()).append(System.lineSeparator());
+
+    buffer.append("Orientation:").append(getOrientation()).append(System.lineSeparator());
+
+    return buffer.toString();
+  }
+
+  //
+  //
 
   public final String getBitsPerSample() {
     return sBitsPerSample;
@@ -501,11 +527,11 @@ public class ImageMetadata {
   }
 
   public final String getOrientation() {
-    return sOrientation;
+    return orientation;
   }
 
   public final void setOrientation(final String orientation) {
-    sOrientation = orientation;
+    this.orientation = orientation;
   }
 
   public final String getPadding() {
