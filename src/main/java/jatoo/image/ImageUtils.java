@@ -66,7 +66,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 8.0-SNAPSHOT, June 23, 2017
+ * @version 8.1-SNAPSHOT, January 12, 2018
  */
 public class ImageUtils {
 
@@ -74,12 +74,14 @@ public class ImageUtils {
   private static final Log logger = LogFactory.getLog(ImageUtils.class);
 
   public static final String FORMAT_JPG = "jpg";
+  public static final String FORMAT_JPEG = "jpeg";
   public static final String FORMAT_PNG = "png";
   public static final String FORMAT_GIF = "gif";
 
   /** Image formats that can be loaded or saved. */
   public enum FORMAT {
     JPG,
+    JPEG,
     PNG,
     GIF;
   }
