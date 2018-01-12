@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with image metadata.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.1, May 29, 2017
+ * @version 1.2, January 12, 2018
  */
 public abstract class ImageMetadataHandler {
 
@@ -73,6 +73,11 @@ public abstract class ImageMetadataHandler {
         }
 
         @Override
+        public boolean copyMetadata(File srcImage, File dstImage) {
+          throw new IllegalStateException(getNotImplementedExceptionText());
+        }
+
+        @Override
         public boolean setDateTimeOriginal(File image, Date date) {
           throw new IllegalStateException(getNotImplementedExceptionText());
         }
@@ -93,7 +98,7 @@ public abstract class ImageMetadataHandler {
         }
 
         @Override
-        public boolean copyMetadata(File srcImage, File dstImage) {
+        public String getOrientation(File image) {
           throw new IllegalStateException(getNotImplementedExceptionText());
         }
       };
@@ -114,11 +119,23 @@ public abstract class ImageMetadataHandler {
 
   protected ImageMetadataHandler() {}
 
+  //
+  //
+
   public ImageMetadata getMetadata(String image) {
     return getMetadata(new File(image));
   }
 
   public abstract ImageMetadata getMetadata(File image);
+
+  public boolean copyMetadata(String srcImage, String dstImage) {
+    return copyMetadata(new File(srcImage), new File(dstImage));
+  }
+
+  public abstract boolean copyMetadata(File srcImage, File dstImage);
+
+  //
+  //
 
   public Date getDateTimeOriginal(String image) {
     return getDateTimeOriginal(new File(image));
@@ -151,10 +168,13 @@ public abstract class ImageMetadataHandler {
 
   public abstract Map<File, Date> getDateTimeOriginalForFolder(File folder);
 
-  public boolean copyMetadata(String srcImage, String dstImage) {
-    return copyMetadata(new File(srcImage), new File(dstImage));
+  //
+  //
+
+  public String getOrientation(String image) {
+    return getOrientation(new File(image));
   }
 
-  public abstract boolean copyMetadata(File srcImage, File dstImage);
+  public abstract String getOrientation(File image);
 
 }
