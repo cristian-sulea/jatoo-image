@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * Thumbnails are reduced-size versions of images, used to help in recognizing and organizing them.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 2.0, June 29, 2017
+ * @version 2.1, January 12, 2018
  */
 public class ImageThumbnails {
 
@@ -220,7 +220,7 @@ public class ImageThumbnails {
       input.append("fill");
     }
     input.append(THUMBNAIL_FILE_NAME_PATTERN_REPLACEMENT);
-    input.append(file.getParentFile().getAbsolutePath());
+    input.append(file.getAbsoluteFile().getParentFile().getAbsolutePath());
 
     StringBuilder name = new StringBuilder();
 
