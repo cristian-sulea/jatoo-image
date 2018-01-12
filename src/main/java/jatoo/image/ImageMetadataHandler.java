@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with image metadata.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.2, January 12, 2018
+ * @version 1.3, January 12, 2018
  */
 public abstract class ImageMetadataHandler {
 
@@ -88,6 +88,11 @@ public abstract class ImageMetadataHandler {
         }
 
         @Override
+        public boolean removeMetadata(File image) {
+          throw new IllegalStateException(getNotImplementedExceptionText());
+        }
+
+        @Override
         public Map<File, Date> getDateTimeOriginalForFolder(File folder) {
           throw new IllegalStateException(getNotImplementedExceptionText());
         }
@@ -133,6 +138,12 @@ public abstract class ImageMetadataHandler {
   }
 
   public abstract boolean copyMetadata(File srcImage, File dstImage);
+
+  public boolean removeMetadata(String image) {
+    return removeMetadata(new File(image));
+  }
+
+  public abstract boolean removeMetadata(File image);
 
   //
   //
