@@ -38,6 +38,7 @@ public abstract class ImageMetadataHandler {
   private static final Log logger = LogFactory.getLog(ImageMetadataHandler.class);
 
   public static final String HANDLER_EXIFTOOL = "ExifTool";
+  public static final String HANDLER_METADATA_EXTRACTOR = "metadata extractor";
 
   private static ImageMetadataHandler defaultInstance;
   private static Map<String, ImageMetadataHandler> availableInstances = new HashMap<>();
@@ -46,6 +47,7 @@ public abstract class ImageMetadataHandler {
 
     Map<String, String> handlerClasses = new LinkedHashMap<>();
     handlerClasses.put(HANDLER_EXIFTOOL, "jatoo.image.metadata.exiftool.ExifToolImageMetadataHandler");
+    handlerClasses.put(HANDLER_METADATA_EXTRACTOR, "jatoo.image.metadata.extractor.ExtractorImageMetadataHandler");
 
     for (String handler : handlerClasses.keySet()) {
 
@@ -103,7 +105,7 @@ public abstract class ImageMetadataHandler {
         }
 
         @Override
-        public String getOrientation(File image) {
+        public int getOrientation(File image) {
           throw new IllegalStateException(getNotImplementedExceptionText());
         }
       };
@@ -182,10 +184,10 @@ public abstract class ImageMetadataHandler {
   //
   //
 
-  public String getOrientation(String image) {
+  public int getOrientation(String image) {
     return getOrientation(new File(image));
   }
 
-  public abstract String getOrientation(File image);
+  public abstract int getOrientation(File image);
 
 }
