@@ -17,10 +17,12 @@
 package jatoo.image;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -30,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with image metadata.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.3, January 12, 2018
+ * @version 1.3, January 19, 2018
  */
 public abstract class ImageMetadataHandler {
 
@@ -49,6 +51,8 @@ public abstract class ImageMetadataHandler {
     handlerClasses.put(HANDLER_EXIFTOOL, "jatoo.image.metadata.exiftool.ExifToolImageMetadataHandler");
     handlerClasses.put(HANDLER_METADATA_EXTRACTOR, "jatoo.image.metadata.extractor.ExtractorImageMetadataHandler");
 
+    List<Throwable> handlerClassesExceptions = new ArrayList<>();
+
     for (String handler : handlerClasses.keySet()) {
 
       try {
@@ -61,12 +65,16 @@ public abstract class ImageMetadataHandler {
       }
 
       catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-        logger.info("failed to instantiate the handler", e);
+        handlerClassesExceptions.add(e);
       }
     }
 
     if (defaultInstance == null) {
+
       logger.warn("there is not even one image metadata handler implementation on the class path");
+      for (Throwable t : handlerClassesExceptions) {
+        logger.warn(t);
+      }
 
       defaultInstance = new ImageMetadataHandler() {
 
