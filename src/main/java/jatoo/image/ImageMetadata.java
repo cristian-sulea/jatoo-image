@@ -29,7 +29,7 @@ import java.util.Date;
  * </ul>
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.0.2, January 12, 2018
+ * @version 1.1, March 2, 2018
  */
 public class ImageMetadata {
 
@@ -153,7 +153,7 @@ public class ImageMetadata {
 
     StringBuilder buffer = new StringBuilder();
 
-    buffer.append("DateTimeOriginal:").append(getDateTimeOriginal()).append(System.lineSeparator());
+    buffer.append("DateTimeOriginal:").append(getDateTaken()).append(System.lineSeparator());
 
     buffer.append("ImageWidth:").append(getImageWidth()).append(System.lineSeparator());
     buffer.append("ImageHeight:").append(getImageHeight()).append(System.lineSeparator());
@@ -342,11 +342,11 @@ public class ImageMetadata {
     sCreateDate = createDate;
   }
 
-  public final Date getDateTimeOriginal() {
+  public final Date getDateTaken() {
     return dateTimeOriginal;
   }
 
-  public final void setDateTimeOriginal(final Date dateTimeOriginal) {
+  public final void setDateTaken(final Date dateTimeOriginal) {
     this.dateTimeOriginal = dateTimeOriginal;
   }
 

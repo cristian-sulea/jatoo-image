@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with image metadata.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.3, January 19, 2018
+ * @version 2.0, March 2, 2018
  */
 public abstract class ImageMetadataHandler {
 
@@ -88,7 +88,7 @@ public abstract class ImageMetadataHandler {
         }
 
         @Override
-        public boolean setDateTimeOriginal(File image, Date date) {
+        public boolean setDateTaken(File image, Date date) {
           throw new IllegalStateException(getNotImplementedExceptionText());
         }
 
@@ -103,12 +103,12 @@ public abstract class ImageMetadataHandler {
         }
 
         @Override
-        public Map<File, Date> getDateTimeOriginalForFolder(File folder) {
+        public Map<File, Date> getDateTakenForFolder(File folder) {
           throw new IllegalStateException(getNotImplementedExceptionText());
         }
 
         @Override
-        public Date getDateTimeOriginal(File image) {
+        public Date getDateTaken(File image) {
           throw new IllegalStateException(getNotImplementedExceptionText());
         }
 
@@ -158,36 +158,36 @@ public abstract class ImageMetadataHandler {
   //
   //
 
-  public Date getDateTimeOriginal(String image) {
-    return getDateTimeOriginal(new File(image));
+  public Date getDateTaken(String image) {
+    return getDateTaken(new File(image));
   }
 
-  public abstract Date getDateTimeOriginal(File image);
+  public abstract Date getDateTaken(File image);
 
-  public boolean setDateTimeOriginal(String image, int year, int month, int day, int hour, int minute, int second) {
-    return setDateTimeOriginal(new File(image), year, month, day, hour, minute, second);
+  public boolean setDateTaken(String image, int year, int month, int day, int hour, int minute, int second) {
+    return setDateTaken(new File(image), year, month, day, hour, minute, second);
   }
 
-  public boolean setDateTimeOriginal(File image, int year, int month, int day, int hour, int minute, int second) {
+  public boolean setDateTaken(File image, int year, int month, int day, int hour, int minute, int second) {
 
     Calendar c = Calendar.getInstance();
     c.clear();
     c.set(year, month - 1, day, hour, minute, second);
 
-    return setDateTimeOriginal(image, c.getTime());
+    return setDateTaken(image, c.getTime());
   }
 
-  public boolean setDateTimeOriginal(String image, Date date) {
-    return setDateTimeOriginal(new File(image), date);
+  public boolean setDateTaken(String image, Date date) {
+    return setDateTaken(new File(image), date);
   }
 
-  public abstract boolean setDateTimeOriginal(File image, Date date);
+  public abstract boolean setDateTaken(File image, Date date);
 
-  public Map<File, Date> getDateTimeOriginalForFolder(String folder) {
-    return getDateTimeOriginalForFolder(new File(folder));
+  public Map<File, Date> getDateTakenForFolder(String folder) {
+    return getDateTakenForFolder(new File(folder));
   }
 
-  public abstract Map<File, Date> getDateTimeOriginalForFolder(File folder);
+  public abstract Map<File, Date> getDateTakenForFolder(File folder);
 
   //
   //
