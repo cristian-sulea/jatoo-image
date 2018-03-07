@@ -29,11 +29,11 @@ import java.util.Date;
  * </ul>
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.1, March 2, 2018
+ * @version 1.2, March 7, 2018
  */
 public class ImageMetadata {
 
-// CHECKSTYLE:OFF
+  // CHECKSTYLE:OFF
 
   //
   // File
@@ -61,7 +61,8 @@ public class ImageMetadata {
   private String sImageDescription; // test title
   private String sMake; // Apple
   private String sModel; // iPhone 5s
-  private String orientation; // Horizontal (normal)
+  private int orientation; // Horizontal (normal)
+  private String orientationText; // Horizontal (normal)
   private String sXResolution; // 72
   private String sYResolution; // 72
   private String sResolutionUnit; // inches
@@ -526,12 +527,20 @@ public class ImageMetadata {
     sOffsetSchema = offsetSchema;
   }
 
-  public final String getOrientation() {
+  public final int getOrientation() {
     return orientation;
   }
 
-  public final void setOrientation(final String orientation) {
+  public final void setOrientation(final int orientation) {
     this.orientation = orientation;
+  }
+
+  public final String getOrientationText() {
+    return orientationText;
+  }
+
+  public final void setOrientationText(final String orientationText) {
+    this.orientationText = orientationText;
   }
 
   public final String getPadding() {

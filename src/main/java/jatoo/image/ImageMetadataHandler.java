@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with image metadata.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 2.0, March 2, 2018
+ * @version 2.1, March 7, 2018
  */
 public abstract class ImageMetadataHandler {
 
@@ -78,8 +78,9 @@ public abstract class ImageMetadataHandler {
 
       defaultInstance = new ImageMetadataHandler() {
 
-        private String getNotImplementedExceptionText() {
-          return "not implemented exception: there is not even one image metadata handler implementation on the class path";
+        @Override
+        protected String getNotImplementedExceptionText() {
+          return super.getNotImplementedExceptionText() + " / there is not even one image metadata handler implementation on the class path";
         }
 
         @Override
@@ -133,6 +134,13 @@ public abstract class ImageMetadataHandler {
   }
 
   protected ImageMetadataHandler() {}
+
+  //
+  //
+
+  protected String getNotImplementedExceptionText() {
+    return "method not implemented / operation not supported";
+  }
 
   //
   //
@@ -197,5 +205,39 @@ public abstract class ImageMetadataHandler {
   }
 
   public abstract int getOrientation(File image);
+
+  public String getOrientationText(String image) {
+    return getOrientationText(getOrientation(image));
+  }
+
+  public String getOrientationText(File image) {
+    return getOrientationText(getOrientation(image));
+  }
+
+  protected static String getOrientationText(int orientation) {
+
+    switch (orientation) {
+
+      case 1:
+        return "Horizontal (normal)";
+      case 2:
+        return "Mirror horizontal";
+      case 3:
+        return "Rotate 180";
+      case 4:
+        return "Mirror vertical";
+      case 5:
+        return "Mirror horizontal and rotate 270 CW";
+      case 6:
+        return "Rotate 90 CW";
+      case 7:
+        return "Mirror horizontal and rotate 90 CW";
+      case 8:
+        return "Rotate 270 CW";
+
+      default:
+        return String.valueOf(orientation);
+    }
+  }
 
 }
