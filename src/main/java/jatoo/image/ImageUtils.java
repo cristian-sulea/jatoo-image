@@ -879,7 +879,7 @@ public class ImageUtils {
       BufferedImage tmpImage = create(resizedImageSize.width, resizedImageSize.height, resizedImageHasAlpha);
 
       Graphics2D tmpImageGraphics = tmpImage.createGraphics();
-      tmpImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+//      tmpImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
       tmpImageGraphics.drawImage(resizedImage, 0, 0, resizedImageSize.width, resizedImageSize.height, null);
       tmpImageGraphics.dispose();
 
