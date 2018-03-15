@@ -23,7 +23,7 @@ import java.io.File;
  * Abstract image cache.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.1, March 13, 2018
+ * @version 1.2, March 13, 2018
  */
 public abstract class ImageCache {
 
@@ -55,6 +55,21 @@ public abstract class ImageCache {
 
   public synchronized BufferedImage get(final Object... keys) {
     return getImpl(createCompoundKey(keys));
+  }
+
+  //
+  // contains
+
+  public synchronized boolean contains(final File file) {
+    return containsImpl(createKeyFromFile(file));
+  }
+
+  public synchronized boolean contains(final File file, final Object... keys) {
+    return containsImpl(createCompoundKey(createKeyFromFile(file), createCompoundKey(keys)));
+  }
+
+  public synchronized boolean contains(final Object... keys) {
+    return containsImpl(createCompoundKey(keys));
   }
 
   //
@@ -100,6 +115,8 @@ public abstract class ImageCache {
   protected abstract void addImpl(final BufferedImage image, final String key);
 
   protected abstract BufferedImage getImpl(String key);
+
+  protected abstract boolean containsImpl(String key);
 
   protected abstract void removeImpl(String key);
 

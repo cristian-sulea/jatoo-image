@@ -31,7 +31,7 @@ import java.util.Map.Entry;
  * an {@link OutOfMemoryError}.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 3.0, March 12, 2018
+ * @version 3.1, March 13, 2018
  */
 public class ImageCacheMemory extends ImageCache {
 
@@ -54,6 +54,11 @@ public class ImageCacheMemory extends ImageCache {
     }
 
     return image;
+  }
+
+  @Override
+  protected boolean containsImpl(String key) {
+    return getImpl(key) != null;
   }
 
   @Override

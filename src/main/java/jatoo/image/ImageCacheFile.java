@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  * A handy image file cache.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 1.0, March 13, 2018
+ * @version 1.1, March 13, 2018
  */
 public class ImageCacheFile extends ImageCache {
 
@@ -135,6 +135,11 @@ public class ImageCacheFile extends ImageCache {
     // null is an accepted value
 
     return null;
+  }
+
+  @Override
+  protected boolean containsImpl(String key) {
+    return createFileFromKey(key).exists();
   }
 
   @Override
