@@ -31,6 +31,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
@@ -66,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
  * A collection of utility methods to ease the work with images.
  * 
  * @author <a href="http://cristian.sulea.net" rel="author">Cristian Sulea</a>
- * @version 8.1-SNAPSHOT, January 12, 2018
+ * @version 8.2, March 16, 2018
  */
 public class ImageUtils {
 
@@ -879,7 +880,8 @@ public class ImageUtils {
       BufferedImage tmpImage = create(resizedImageSize.width, resizedImageSize.height, resizedImageHasAlpha);
 
       Graphics2D tmpImageGraphics = tmpImage.createGraphics();
-//      tmpImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+      // tmpImageGraphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+      // RenderingHints.VALUE_INTERPOLATION_BILINEAR);
       tmpImageGraphics.drawImage(resizedImage, 0, 0, resizedImageSize.width, resizedImageSize.height, null);
       tmpImageGraphics.dispose();
 
@@ -1594,6 +1596,16 @@ public class ImageUtils {
 
   public static BufferedImage drawShapes(final BufferedImage image, final List<? extends Shape> shapes, final Color color) {
     return drawShapes(image, shapes, color, null);
+  }
+
+  /**
+   * Copies the specified {@link Image} to the system Clipboard.
+   * 
+   * @param image
+   *          the {@link Image} to be copied.
+   */
+  public static void copyToClipboard(final Image image) {
+    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new TransferableImage(image), null);
   }
 
 }
