@@ -5,12 +5,14 @@
   <parent>
     <groupId>net.sulea.cristian</groupId>
     <artifactId>jatoo</artifactId>
-    <relativePath>../jatoo/pom.xml</relativePath>
-    <version>5.0</version>
+<!--     <relativePath>../jatoo/pom.xml</relativePath> -->
+    <version>5</version>
   </parent>
 
   <artifactId>jatoo-image</artifactId>
   <packaging>jar</packaging>
+
+  <version>5.0</version>
 
 
   <name>JaToo Image</name>
@@ -41,6 +43,13 @@
     <developerConnection>scm:git:git@github.com:cristian-sulea/jatoo-image.git</developerConnection>
     <url>https://github.com/cristian-sulea/jatoo-image</url>
   </scm>
+
+
+  <properties>
+    <skip.plugin.checkstyle>true</skip.plugin.checkstyle>
+    <skip.plugin.findbugs>true</skip.plugin.findbugs>
+    <skip.plugin.pmd>true</skip.plugin.pmd>
+  </properties>
 
 
 </project>
